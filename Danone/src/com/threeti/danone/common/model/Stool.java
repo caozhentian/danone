@@ -23,8 +23,11 @@ public class Stool extends Diary  {
 	public static final String STOOL_NO  = "N" ;
 	
     private String stoolyn;
+    
     private Integer type;
-    private Integer amount;
+    
+    private Integer amount;  // now not used
+    
 
     public Stool() {
     }

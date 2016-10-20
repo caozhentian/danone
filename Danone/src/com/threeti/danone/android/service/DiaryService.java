@@ -53,7 +53,7 @@ public class DiaryService {
 		singleThreadExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				List<Diary> diary = diaryRespository.query(date, beforeDays) ;
+				List<? extends Diary> diary = diaryRespository.query(date, beforeDays) ;
 				EventBus.getDefault().post(new DiaryQueryEvent(diary)) ;
 			}
 		}) ;

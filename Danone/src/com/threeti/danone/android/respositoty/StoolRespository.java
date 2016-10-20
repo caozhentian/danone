@@ -19,11 +19,13 @@ import android.content.Context;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
+import com.threeti.danone.android.db.dao.CryingDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
+import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.manager.net.RetrofitFactory;
 import com.threeti.danone.manager.net.StoolApiService;
 
@@ -123,8 +125,20 @@ public class StoolRespository extends DiaryRespository {
 	}
 
 	@Override
-	protected List<Diary> loacalQuery(Date date, int beforeDays) {
-		
+	protected List<? extends Diary> loacalQuery(Date date, int beforeDays) {
+		Date curDate = DateUtil.getBeforeDate(date ,beforeDays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+			StoolDao stoolDao = daoSession.getStoolDao() ;
+			List<Stool> stools = stoolDao.queryBuilder().where(Properties.Ddat.gt(curDate)).list() ;
+			return stools ;
+		    }catch(Exception e){
+		    	
+		    }
+		}
 		return Collections.emptyList() ;
 	}
 
@@ -138,7 +152,7 @@ public class StoolRespository extends DiaryRespository {
 
 		Date date = new Date() ;
 		int beforeDays = 3 ; //default 3 
-		List<Diary> diaries = loacalQuery(date, beforeDays) ;
+		List<? extends Diary> diaries = loacalQuery(date, beforeDays) ;
 		Retrofit retrofit = RetrofitFactory.getBaseRetrofit();
 		StoolApiService stoolApiService = retrofit.create(StoolApiService.class);
 		Call<BaseModel<List<Stool>>> call     = stoolApiService.sync(convStools(diaries)) ;

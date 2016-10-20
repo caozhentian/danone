@@ -13,20 +13,20 @@ import com.threeti.danone.common.model.Diary;
  */
 public class DiaryQueryEvent {
 
-	private List<Diary> diaries ;
+	private List<? extends Diary> diaries ;
 	
 	
 
-	public DiaryQueryEvent(List<Diary> diaries) {
+	public DiaryQueryEvent(List<? extends Diary> diaries) {
 		super();
 		this.diaries = diaries;
 	}
 
-	public List<Diary> getDiaries() {
+	public List<? extends Diary> getDiaries() {
 		return diaries;
 	}
 
-	public void setDiaries(List<Diary> diaries) {
+	public void setDiaries(List<? extends Diary> diaries) {
 		this.diaries = diaries;
 	}
 	

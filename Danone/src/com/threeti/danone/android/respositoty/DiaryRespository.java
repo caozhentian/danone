@@ -38,7 +38,7 @@ public abstract class DiaryRespository {
 	
 	protected abstract boolean loacalInsert(List<? extends Diary> diary)   ;
 	
-	protected abstract List<Diary> loacalQuery(Date date , int beforeDays) ;
+	protected abstract List<? extends Diary> loacalQuery(Date date , int beforeDays) ;
 	
 	protected abstract List<? extends Diary> queryNeedDeleteDiary()        ;
 	
@@ -48,11 +48,17 @@ public abstract class DiaryRespository {
 	 * @return
 	 */
 	protected abstract List<Diary> serverQuery(Date date , int beforeDays) ;
+	
+	
+	//************************syn relate code  start 
 	/**
 	 * @param       diary
 	 * @return true must set diray serverId value(成功，必须设置服务器返回的Id)
 	 */
 	protected abstract boolean sync(Diary diary)                 ;
+	
+	protected abstract List<? extends Diary> getNeedSynDiary()                         ;
+	protected abstract List<? extends Diary> sync(List<? extends Diary> diary)         ;
 	
 	public  void sync(){ //batch sync framework code , for work thread execute
 		List<? extends Diary> diaries         = getNeedSynDiary()       ;
@@ -83,9 +89,9 @@ public abstract class DiaryRespository {
 		
 	}
 	
-	protected abstract List<? extends Diary> getNeedSynDiary()                         ;
-	protected abstract List<? extends Diary> sync(List<? extends Diary> diary)         ;
 	
+	
+	//************************syn relate code  end 
 	public void create(Diary diary){
 		diary.setStatus(Diary.OPP_ADD) ;
 		String uuid = UUID.randomUUID().toString() ;
@@ -198,8 +204,8 @@ public abstract class DiaryRespository {
 		}
 	}
 	
-	public List<Diary> query(Date date , int beforeDays){
-		List<Diary> diarys = loacalQuery(date , beforeDays) ;
+	public List<? extends Diary> query(Date date , int beforeDays){
+		List<? extends Diary> diarys = loacalQuery(date , beforeDays) ;
 		if(diarys == null || diarys.size() == 0){
 			diarys = serverQuery(date , beforeDays) ;
 			//save app storage

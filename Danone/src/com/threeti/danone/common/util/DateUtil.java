@@ -3,12 +3,12 @@
  */
 package com.threeti.danone.common.util;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @author Administrator
+ * @author ztcao 
  *
  */
 public class DateUtil {
@@ -16,18 +16,26 @@ public class DateUtil {
 	public static final String YYYY_MM_DD_FORMAT = "yyyy-MM-dd" ;
 	
 	public static Date getBeforeDate(int beforeDays){
-		Date beginDate = new Date();
+		return getBeforeDate(new Date() , beforeDays) ;
+	}
+	
+	
+	public static Date getBeforeDate(Date curDate , int beforeDays){
+		if(beforeDays < 0 ){
+			throw new IllegalArgumentException("beforeDays < 0") ;
+		}
+		if(curDate == null){
+			return getBeforeDate(new Date() , beforeDays) ; 
+		}
 		Calendar date = Calendar.getInstance();
-		date.setTime(beginDate);
+		date.setTime(curDate);
 		date.set(Calendar.DATE, date.get(Calendar.DATE) - beforeDays);
 		return date.getTime() ;
 	}
-	
-	public static String format(Date date , String format){
-		SimpleDateFormat dft = new SimpleDateFormat(format);
-		
-		return dft.format(date) ;
+	//WeekDay day month
+	public static String format(Date date ){
+		DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG) ;
+		return dateformat.format(date) ;
 	}
-	
 	
 }
