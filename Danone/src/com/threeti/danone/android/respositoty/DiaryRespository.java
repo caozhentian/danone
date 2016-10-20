@@ -28,15 +28,24 @@ public abstract class DiaryRespository {
 	
 	protected abstract boolean localDelete(Diary diary)   ;
 	
-	protected abstract boolean localDelete(List<? extends Diary> diary)    ;
+	protected abstract boolean localDelete(List<? extends Diary> diaries)    ;
 	
 	protected abstract boolean localUpdate(Diary diary)   ;
 	
-	protected abstract boolean localUpdate(List<? extends Diary> diary)    ;
+	protected abstract boolean localUpdate(List<? extends Diary> diaries)    ;
 	
 	protected abstract boolean loacalInsert(Diary diary)  ;
 	
-	protected abstract boolean loacalInsert(List<? extends Diary> diary)   ;
+	protected  boolean loacalInsert(List<? extends Diary> diaries){
+		if(diaries == null || diaries.size() == 0 ){
+			return true ;
+		}
+		for(Diary diary : diaries){
+			String uuid = UUID.randomUUID().toString() ;
+			diary.setAppId(uuid) ;
+		}
+		return true ;
+	}
 	
 	protected abstract List<? extends Diary> loacalQuery(Date date , int beforeDays) ;
 	
@@ -208,7 +217,7 @@ public abstract class DiaryRespository {
 		List<? extends Diary> diarys = loacalQuery(date , beforeDays) ;
 		if(diarys == null || diarys.size() == 0){
 			diarys = serverQuery(date , beforeDays) ;
-			//save app storage
+			//add app storage
 			loacalInsert(diarys) ;
 		}
 		//delete old diaries

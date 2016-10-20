@@ -9,7 +9,7 @@ import com.threeti.danone.common.model.Diary;
  */
 public class Stool extends Diary  {
 
-	//stool type
+	// KEEP INCLUDES - put your custom includes here
 	public static final int STOOL_WATERY = 1   ;  
 	
 	public static final int STOOL_SOFT   = 2   ;  
@@ -22,13 +22,15 @@ public class Stool extends Diary  {
 	
 	public static final String STOOL_NO  = "N" ;
 	
+	// KEEP INCLUDES end
+	
     private String stoolyn;
     
     private Integer type;
     
     private Integer amount;  // now not used
     
-
+    
     public Stool() {
     }
 

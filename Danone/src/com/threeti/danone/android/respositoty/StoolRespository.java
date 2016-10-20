@@ -177,7 +177,7 @@ public class StoolRespository extends DiaryRespository {
 	
 	@Override
 	protected boolean loacalInsert(List<? extends Diary> diaries) {
-		
+		super.loacalInsert(diaries) ;
 		if( diaries == null || diaries.size() == 0 ){
 			return true ;
 		}
@@ -185,7 +185,7 @@ public class StoolRespository extends DiaryRespository {
 		boolean isInsertSucess =  false;
 		
 		List<Stool> stools     = convStools(diaries) ;  
-	
+	  
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
