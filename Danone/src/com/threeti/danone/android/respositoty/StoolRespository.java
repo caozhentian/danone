@@ -105,21 +105,27 @@ public class StoolRespository extends DiaryRespository {
 		boolean isSyncSucess =  false;
 		Retrofit retrofit = RetrofitFactory.getBaseRetrofit();
 		StoolApiService stoolApiService = retrofit.create(StoolApiService.class);
-		Call<BaseModel<Stool>> call     = stoolApiService.sync((Stool)diary) ;
-		try {
-			Response<BaseModel<Stool>>  response = 	call.execute();
-			if(response.isSuccessful() && response.errorBody() == null){
-				BaseModel<Stool> baseModel = response.body() ;
-				Stool stool      = baseModel.getData() ;
-				//update diary serverId
-				diary.setServerId(stool.getServerId()) ;
-				isSyncSucess = true ;
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		try{
+			Call<BaseModel<Stool>> call     = stoolApiService.sync((Stool)diary) ;
+			try {
+				Response<BaseModel<Stool>>  response = 	call.execute();
+				if(response.isSuccessful() && response.errorBody() == null){
+					BaseModel<Stool> baseModel = response.body() ;
+					Stool stool      = baseModel.getData() ;
+					//update diary serverId
+					diary.setServerId(stool.getServerId()) ;
+					isSyncSucess = true ;
+				}
+				
+			    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				loger.debug(e.toString()) ;
+				e.printStackTrace();
+			   }
+		}
+		catch(Exception e){
 			loger.debug(e.toString()) ;
-			e.printStackTrace();
+			e.printStackTrace() ;
 		}
 		return isSyncSucess;
 	}
@@ -132,9 +138,9 @@ public class StoolRespository extends DiaryRespository {
 
 		if (daoSession != null) {
 		    try{
-			StoolDao stoolDao = daoSession.getStoolDao() ;
-			List<Stool> stools = stoolDao.queryBuilder().where(Properties.Ddat.gt(curDate)).list() ;
-			return stools ;
+				StoolDao stoolDao = daoSession.getStoolDao() ;
+				List<Stool> stools = stoolDao.queryBuilder().where(Properties.Ddat.gt(curDate)).list() ;
+				return stools ;
 		    }catch(Exception e){
 		    	
 		    }
@@ -172,9 +178,6 @@ public class StoolRespository extends DiaryRespository {
 		return Collections.emptyList() ;
 	}
 
-	
-	
-	
 	@Override
 	protected boolean loacalInsert(List<? extends Diary> diaries) {
 		super.loacalInsert(diaries) ;
