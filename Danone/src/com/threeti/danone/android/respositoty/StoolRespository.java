@@ -19,7 +19,7 @@ import android.content.Context;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
-import com.threeti.danone.android.db.dao.CryingDao.Properties;
+import com.threeti.danone.android.db.dao.StoolDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.BaseModel;
@@ -28,6 +28,8 @@ import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.manager.net.RetrofitFactory;
 import com.threeti.danone.manager.net.StoolApiService;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * @author ztcao
@@ -139,10 +141,10 @@ public class StoolRespository extends DiaryRespository {
 		if (daoSession != null) {
 		    try{
 				StoolDao stoolDao = daoSession.getStoolDao() ;
-				List<Stool> stools = stoolDao.queryBuilder().where(Properties.Ddat.gt(curDate)).list() ;
+				List<Stool> stools = stoolDao.queryBuilder().where(Properties.Ddat.ge(curDate.getTime())).list() ;
 				return stools ;
 		    }catch(Exception e){
-		    	
+		    	e.printStackTrace() ;
 		    }
 		}
 		return Collections.emptyList() ;
@@ -273,13 +275,46 @@ public class StoolRespository extends DiaryRespository {
 	}
 
 	@Override
-	protected List<? extends Diary> getNeedSynDiary() {
-		return Collections.emptyList();
+	public List<? extends Diary> getNeedSynDiary() {
+		int beforedays = 3 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				StoolDao stoolDao = daoSession.getStoolDao() ;
+				QueryBuilder<Stool > queryBuilder = stoolDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.ge(curDate.getTime()) ,
+						           (Properties.Status.notEq(Diary.OPP_NORMAL)));
+				List<Stool> stools = queryBuilder.list() ;
+				return stools ;
+		    }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 	@Override
-	protected List<? extends Diary> queryNeedDeleteDiary() {
-		return Collections.emptyList();
+	public List<? extends Diary> queryNeedDeleteDiary() {
+		int beforedays = 1 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				StoolDao stoolDao = daoSession.getStoolDao() ;
+				QueryBuilder<Stool> queryBuilder = stoolDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.lt(curDate))   ;
+				List<Stool> stools = queryBuilder.list() ;
+				return stools ;
+		   }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 }

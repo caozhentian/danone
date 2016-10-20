@@ -19,7 +19,11 @@ public class DateUtil {
 		return getBeforeDate(new Date() , beforeDays) ;
 	}
 	
-	
+	/**yyyy-MM-dd 
+	 * @param curDate
+	 * @param beforeDays
+	 * @return
+	 */
 	public static Date getBeforeDate(Date curDate , int beforeDays){
 		if(beforeDays < 0 ){
 			throw new IllegalArgumentException("beforeDays < 0") ;
@@ -30,8 +34,13 @@ public class DateUtil {
 		Calendar date = Calendar.getInstance();
 		date.setTime(curDate);
 		date.set(Calendar.DATE, date.get(Calendar.DATE) - beforeDays);
+		date.set(Calendar.HOUR_OF_DAY, 0) ;
+		date.set(Calendar.MINUTE, 0) ;
+		date.set(Calendar.SECOND, 0) ;
+		date.set(Calendar.MILLISECOND, 0) ;
 		return date.getTime() ;
 	}
+	
 	//WeekDay day month
 	public static String format(Date date ){
 		DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG) ;

@@ -27,7 +27,7 @@ public class DiaryService {
 		singleThreadExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				if(diary.isOffline()){
+				if(diary.getAppId() == null){
 					diaryRespository.create(diary) ;
 				}
 				else{

@@ -11,8 +11,6 @@ import com.threeti.danone.android.respositoty.StoolRespository;
  */
 public class StoolService extends DiaryService{
 
-	
-
 	public StoolService() {
 		diaryRespository = new StoolRespository() ;
 	}

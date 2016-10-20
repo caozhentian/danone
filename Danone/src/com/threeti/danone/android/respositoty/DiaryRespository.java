@@ -47,6 +47,11 @@ public abstract class DiaryRespository {
 		return true ;
 	}
 	
+	/**(date - beforeDays to date)
+	 * @param date
+	 * @param beforeDays 
+	 * @return
+	 */
 	protected abstract List<? extends Diary> loacalQuery(Date date , int beforeDays) ;
 	
 	protected abstract List<? extends Diary> queryNeedDeleteDiary()        ;
