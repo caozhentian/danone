@@ -32,7 +32,7 @@ public class DBActivity extends BaseActivity {
 
 	private StudentAdpter studentAdpter;
 
-	private List<Student> list_students;
+	private List<Stool> list_students;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -47,7 +47,7 @@ public class DBActivity extends BaseActivity {
 	@Override
 	void initData() {
 		// TODO Auto-generated method stub
-		list_students = new ArrayList<Student>();
+		list_students = new ArrayList<Stool>();
 		studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
 	}
 
@@ -77,11 +77,15 @@ public class DBActivity extends BaseActivity {
 		stool.setDdat(new Date()) ;
 		stool.setStoolyn("Y") ;
 		stool.setType(1)      ;
+//		stool.setAmount(3);
 		stoolService.save(stool) ;
 		
 	}
 
 	public void serachEvent(View view) {
+		if (studentSerivice == null) {
+			studentSerivice = new StudentSerivice();
+		}
 		
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
@@ -96,6 +100,12 @@ public class DBActivity extends BaseActivity {
 		
 		StoolDao stoolDao  = daoSession.getStoolDao() ;
 		List<Stool> stools = stoolDao.loadAll() ;
+		if (stools != null) {
+			list_students.clear();
+			list_students.addAll(stools);
+			studentAdpter.notifyDataSetChanged();
+		}
+		
 		int size = stools.size() ;
 		size = 0 ;
 	}
