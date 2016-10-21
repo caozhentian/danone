@@ -248,10 +248,10 @@ public class CryingRespository extends DiaryRespository {
 	
 	public void override(final Crying crying){
 		@SuppressWarnings("unchecked")
-		//执
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 		final CryingDao cryinglDao =  daoSession.getCryingDao() ; 
+		@SuppressWarnings("unchecked")
 		List<Crying> cryinges          = (List<Crying>) query(crying.getDdat() , 0) ;
 		//List<Crying> cryinges          = cryinglDao.loadAll() ;
 		@SuppressWarnings("unchecked")
@@ -279,12 +279,15 @@ public class CryingRespository extends DiaryRespository {
 		            	if(deleteLogicCryinges.size() != 0){
 		            		cryinglDao.updateInTx(deleteLogicCryinges) ;
 		            	}
-		            	crying.setAppId(UUID.randomUUID().toString()) ;
-		            	loacalInsert(crying) ;
+//		            	crying.setAppId(UUID.randomUUID().toString()) ;
+//		            	crying.setStatus(Diary.OPP_ADD) ;
+//		            	loacalInsert(crying) ;
+		            	create(crying) ;
 		            }  
 		    });
 	    }
-		//同步操作
+		
+		
 	}
 	
 	
