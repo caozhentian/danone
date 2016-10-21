@@ -13,12 +13,19 @@ public class CryingService extends DiaryService{
 		diaryRespository=new CryingRespository();
 	}
 
-	public boolean isOverride(Crying crying){ // io 
+	public boolean isOverride(Crying crying){ // lightio 
 		boolean isOverride = ((CryingRespository)diaryRespository).isOverride(crying) ;
 		return  isOverride ;
 	}
 	
-	public void override(Crying crying){ 
-		((CryingRespository)diaryRespository).override(crying);
+	public void override(final Crying crying){ 
+		singleThreadExecutor.execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				((CryingRespository)diaryRespository).override(crying);	
+			}
+		});
+		//((CryingRespository)diaryRespository).override(crying);
 	}
 }
