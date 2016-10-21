@@ -16,11 +16,16 @@ import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.respositoty.StoolRespository;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.android.service.StudentSerivice;
+import com.threeti.danone.common.bean.DiaryQueryEvent;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.bean.Student;
+import com.threeti.danone.common.model.Crying;
+import com.threeti.danone.common.util.DateUtil;
+import com.threeti.danone.common.util.NumberIntersectUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -42,6 +47,12 @@ public class DBActivity extends BaseActivity {
 		initData();
 		initView();
 		EventBus.getDefault().register(this) ;
+		String dateformat = DateUtil.format(new Date()) ;
+		Date date  = DateUtil.getBeforeDate(2) ;
+		int i =0  ;
+		i++ ;
+		
+		testOverride() ;
 	}
 
 	@Override
@@ -77,36 +88,51 @@ public class DBActivity extends BaseActivity {
 		stool.setDdat(new Date()) ;
 		stool.setStoolyn("Y") ;
 		stool.setType(1)      ;
+		stool.setInfantId("12456") ;
 		stoolService.save(stool) ;
 		
 	}
 
 	public void serachEvent(View view) {
-		if (studentSerivice == null) {
-			studentSerivice = new StudentSerivice();
-		}
-		List<Student> temps = studentSerivice.findAllStudents(this);
-		if (temps != null) {
-			list_students.clear();
-			list_students.addAll(temps);
-			studentAdpter.notifyDataSetChanged();
-		}
-		
+
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
-		if (daoSession != null) {
-			StoolDao stoolDao  = daoSession.getStoolDao() ;
-			List<Stool> stools = stoolDao.loadAll() ;
-			int size = stools.size() ;
-			StoolService stoolService = new StoolService() ;
-			stoolService.delete(stools.get(0)) ;
-		}
+//		StoolService stoolService = new StoolService() ;
+//		if (daoSession != null) {
+//			StoolDao stoolDao  = daoSession.getStoolDao() ;
+//			List<Stool> stools = stoolDao.loadAll() ;
+//			int size = stools.size() ;
+//			//
+//			stools.get(0).setStoolyn("update") ;
+//			stools.get(0).setType(888) ;
+//			
+//			//stoolService.delete(stools.get(0)) ;
+//			stoolService.save(stools.get(0)) ;
+//		}
+//		//query
+//		stoolService.query(new Date(), 2) ;
+		 
 		
-		StoolDao stoolDao  = daoSession.getStoolDao() ;
-		List<Stool> stools = stoolDao.loadAll() ;
-		int size = stools.size() ;
-		size = 0 ;
+		final StoolDao stoolDao  = daoSession.getStoolDao() ;
+		final List<Stool> stools = stoolDao.loadAll() ;
+		
+		stoolDao.getSession().runInTx(new Runnable() {  
+            @Override  
+            public void run() {
+            	stoolDao.insert(new Stool()) ;
+            	stoolDao.deleteInTx(stools)  ;
+         }});  
+		
+		
+		
+		StoolRespository stoolRespository = new StoolRespository()  ;
+		List<Stool> stools2 = (List<Stool>) stoolRespository.getNeedSynDiary() ;
+
+		List<Stool> stools3 = (List<Stool>) stoolRespository.queryNeedDeleteDiary() ;
+		
+		int size = stools3.size() ;
+		//size = 0 ;
 	}
 
 	@Override
@@ -126,5 +152,49 @@ public class DBActivity extends BaseActivity {
 		}
 	}
 
+	public void onEventMainThread(DiaryQueryEvent even) {
+		List<Stool> stools = (List<Stool>) even.getDiaries()  ;
+		
+		int size = stools.size() ;
+		
+		size = 4 ;
+	}
 	
+	public void testOverride(){
+		List<Crying> testCrying = new ArrayList<Crying>() ;
+//		Crying cying1 = new Crying() ;
+//		cying1.setApp_id("123456")   ;
+//		//cying.setDdat(ddat)
+//		cying1.setCrysttim(100) ;
+//		cying1.setCryentim(150) ;
+//		testCrying.add(cying1)  ;
+//		
+//		Crying cying2 = new Crying() ;
+//		cying2.setApp_id("123457")   ;
+//		//cying.setDdat(ddat)
+//		cying2.setCrysttim(170) ;
+//		cying2.setCryentim(200) ;
+//		testCrying.add(cying2)  ;
+		
+		Crying cying3 = new Crying() ;
+		cying3.setApp_id("123458")   ;
+		//cying.setDdat(ddat)
+		cying3.setCrysttim(210) ;
+		cying3.setCryentim(400) ;
+		testCrying.add(cying3)  ;
+		
+		
+		Crying overrideCrying = new Crying() ;
+		overrideCrying.setApp_id("12345678") ;
+		overrideCrying.setCrysttim(390) ;
+		overrideCrying.setCryentim(500) ;
+		
+		List<Crying> cryings = (List<Crying>) NumberIntersectUtil.isIntersect(overrideCrying, testCrying) ;
+		
+		int size = cryings.size() ;
+		size++ ;
+		
+		 
+		
+	}
 }
