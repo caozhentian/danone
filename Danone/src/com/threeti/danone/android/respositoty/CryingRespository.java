@@ -26,6 +26,7 @@ import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.Crying;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
+import com.threeti.danone.common.util.NumberIntersectUtil;
 import com.threeti.danone.manager.net.RetrofitFactory;
 import com.threeti.danone.manager.net.StoolApiService;
 
@@ -217,4 +218,57 @@ public class CryingRespository extends DiaryRespository {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public boolean isOverride(final Crying crying){
+		boolean override = false ;
+		List<Crying> cryinges          = (List<Crying>) query(crying.getDdat() , 0) ;
+		@SuppressWarnings("unchecked")
+		List<Crying> intersectCryinges   = (List<Crying>) NumberIntersectUtil.isIntersect(crying, cryinges) ;
+		if(intersectCryinges.size() > 0){
+			override = true ; 
+		}
+		return override ;
+	}
+	
+	public void override(final Crying crying){
+		@SuppressWarnings("unchecked")
+		List<Crying> cryinges          = (List<Crying>) query(crying.getDdat() , 0) ;
+		@SuppressWarnings("unchecked")
+		List<Crying> intersectCryinges   = (List<Crying>) NumberIntersectUtil.isIntersect(crying, cryinges) ;
+		final List<Crying> deleteLogicCryinges = new ArrayList<Crying>() ;
+		final List<Crying> deleteCryinges      = new ArrayList<Crying>() ;
+		
+		for(Crying cry : intersectCryinges){
+			if(cry.isOffline()){
+				deleteCryinges.add(cry) ;
+			}
+			else{
+				cry.setStatus(Diary.OPP_DELETE) ;
+				deleteLogicCryinges.add(cry) ;
+			}
+		}
+		
+		//执
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			final CryingDao cryinglDao = daoSession.getCryingDao() ;
+			cryinglDao.getSession().runInTx(new Runnable() {  
+		            @Override  
+		            public void run() { 
+		            	if(deleteCryinges.size() != 0){
+		            		cryinglDao.deleteInTx(deleteCryinges) ;
+		            	}
+		            	if(deleteLogicCryinges.size() != 0){
+		            		cryinglDao.updateInTx(deleteLogicCryinges) ;
+		            	}
+		            	loacalInsert(crying) ;
+		            	
+		            }  
+		    });
+	    }
+	}
+	
+	
 }
