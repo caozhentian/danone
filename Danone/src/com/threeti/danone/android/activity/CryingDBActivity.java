@@ -18,6 +18,7 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.respositoty.CryingRespository;
 import com.threeti.danone.android.service.CryingService;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.android.service.StudentSerivice;
@@ -83,18 +84,28 @@ public class CryingDBActivity extends BaseActivity {
 	}
 	public void deleteEvent(View view) {
 		
-		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
-		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
-
-		if (daoSession != null) {
-			CryingDao cryingDao  = daoSession.getCryingDao() ;
-			list_students = cryingDao.loadAll() ;
-			int size = list_students.size() ;
-			CryingService cryingService = new CryingService() ;
-			cryingService.delete(list_students.get(0)) ;
-			cryingAdpter.notifyDataSetChanged();
-		}
+//		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+//		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+//
+//		if (daoSession != null) {
+//			CryingDao cryingDao  = daoSession.getCryingDao() ;
+//			list_students = cryingDao.loadAll() ;
+//			int size = list_students.size() ;
+//			CryingService cryingService = new CryingService() ;
+//			cryingService.delete(list_students.get(0)) ;
+//			cryingAdpter.notifyDataSetChanged();
+//		}
+		Crying crying = new Crying() ;
+		crying.setDdat(new Date())   ;
+		crying.setCrytype("override") ;
+		crying.setCrysttim(15);
+		crying.setCryentim(75);
 		
+		//CryingRespository cryingRespository = new CryingRespository() ;
+		//cryingRespository.override(crying) ;
+		
+		CryingService cryingService = new CryingService() ;
+		cryingService.override(crying) ;
 	}
 
 	public void serachEvent(View view) {
@@ -105,6 +116,8 @@ public class CryingDBActivity extends BaseActivity {
 		
 		CryingDao cryingDao  = daoSession.getCryingDao() ;
 		list_students = cryingDao.loadAll() ;
+		cryingAdpter = new CryingAdpter(this, list_students, R.layout.item_student_layout);
+		result_listView.setAdapter(cryingAdpter);
 		cryingAdpter.notifyDataSetChanged();
 	}
 
