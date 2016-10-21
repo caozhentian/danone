@@ -30,7 +30,7 @@ public class StudentAdpter extends CommonAdapter<Stool> {
 
 		if (item != null) {
 			studen_id_textView.setText(item.getAppId() + "");
-//			studen_name_textView.setText(item.getName());
+			studen_name_textView.setText(item.getDdat().toString());
 //			studen_age_textView.setText(item.getAge() + "");
 //			studen_score_textView.setText(item.getScore() + "");
 //			studen_fancy_textView.setText(item.getFancy());

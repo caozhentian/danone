@@ -44,7 +44,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.threeti.danone.android.activity.ShowImgActivity"
+            android:name="com.threeti.danone.android.activity.MvnDBActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>

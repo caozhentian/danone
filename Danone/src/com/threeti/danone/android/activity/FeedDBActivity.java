@@ -56,7 +56,7 @@ public class FeedDBActivity extends BaseActivity {
 	void initData() {
 		// TODO Auto-generated method stub
 		list_students = new ArrayList<Feed>();
-		feedAdpter = new FeedAdpter(this, list_students, R.layout.item_student_layout);
+		
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class FeedDBActivity extends BaseActivity {
 		score_editText = (EditText) findViewById(R.id.score_editText);
 		age_editText = (EditText) findViewById(R.id.age_editText);
 		fancy_editText = (EditText) findViewById(R.id.fancy_editText);
-		result_listView.setAdapter(feedAdpter);
+		
 		name_editText.setHint("哭类型");
 		age_editText.setHint("原因");
 		fancy_editText.setHint("量");
@@ -79,7 +79,11 @@ public class FeedDBActivity extends BaseActivity {
 		Feed feed = new Feed() ;
 		feed.setDdat(new Date()) ;
 		feed.setDeleteReason(age_editText.getText().toString())      ;
-		feed.setBeverNumber(Integer.valueOf(fancy_editText.getText().toString()));
+		if(fancy_editText.getText().toString().isEmpty()){
+			feed.setBeverNumber(0);
+		}else{
+			feed.setBeverNumber(Integer.valueOf(fancy_editText.getText().toString()));
+		}
 		cryingService.save(feed) ;
 		
 	}
@@ -93,7 +97,11 @@ public class FeedDBActivity extends BaseActivity {
 			list_students = cryingDao.loadAll() ;
 			int size = list_students.size() ;
 			FeedingService stoolService = new FeedingService() ;
-			stoolService.delete(list_students.get(0)) ;
+			if(size!=0){
+				stoolService.delete(list_students.get(0)) ;
+			}
+			feedAdpter = new FeedAdpter(this, list_students, R.layout.item_student_layout);
+			result_listView.setAdapter(feedAdpter);
 			feedAdpter.notifyDataSetChanged();
 		}
 		
@@ -105,6 +113,8 @@ public class FeedDBActivity extends BaseActivity {
 		
 		FeedDao stoolDao  = daoSession.getFeedDao() ;
 		list_students = stoolDao.loadAll() ;
+		feedAdpter = new FeedAdpter(this, list_students, R.layout.item_student_layout);
+		result_listView.setAdapter(feedAdpter);
 		feedAdpter.notifyDataSetChanged();
 	}
 
@@ -120,8 +130,7 @@ public class FeedDBActivity extends BaseActivity {
 	
 	public void onEventMainThread(DiaryResposityEvent even) {
 		if(even.getEventType() == DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS){
-			int i = 0 ;
-			i++ ;
+		showToast("OK");
 		}
 	}
 

@@ -119,25 +119,26 @@ public abstract class DiaryRespository {
 		}
 		
 		
-		if(NetUtil.isConnected() == false){
-			//disConneted , notify UI
-			loger.debug("net disconneted") ;
-			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS) ;
-			return ;
-		}
-		
-		boolean syncSuccess =  sync(diary) ;
-		
-		if(syncSuccess){
-			diary.setStatus(Diary.OPP_NORMAL) ;
-			loacalInsert(diary) ;
-			//notify UI
-			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_SUCCESS) ;
-		}
-		else{//sync failed
-			//notify UI
-			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)     ;
-		}
+		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS) ;
+//		if(NetUtil.isConnected() == false){
+//			//disConneted , notify UI
+//			loger.debug("net disconneted") ;
+//			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS) ;
+//			return ;
+//		}
+//		
+//		boolean syncSuccess =  sync(diary) ;
+//		
+//		if(syncSuccess){
+//			diary.setStatus(Diary.OPP_NORMAL) ;
+//			loacalInsert(diary) ;
+//			//notify UI
+//			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_SUCCESS) ;
+//		}
+//		else{//sync failed
+//			//notify UI
+//			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)     ;
+//		}
 	}
 	
 	public void modify(Diary diary){

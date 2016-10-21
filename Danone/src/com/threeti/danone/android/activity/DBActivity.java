@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
+import com.threeti.danone.android.adpter.MvnAdpter;
 import com.threeti.danone.android.adpter.StudentAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
+import com.threeti.danone.android.db.dao.MvnDao;
 import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.service.MvnService;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.android.service.StudentSerivice;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
@@ -48,7 +51,7 @@ public class DBActivity extends BaseActivity {
 	void initData() {
 		// TODO Auto-generated method stub
 		list_students = new ArrayList<Stool>();
-		studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
+
 	}
 
 	@Override
@@ -59,55 +62,55 @@ public class DBActivity extends BaseActivity {
 		score_editText = (EditText) findViewById(R.id.score_editText);
 		age_editText = (EditText) findViewById(R.id.age_editText);
 		fancy_editText = (EditText) findViewById(R.id.fancy_editText);
-		result_listView.setAdapter(studentAdpter);
+
 
 	}
 
 	public void addEvent(View view) {
 
-		if (studentSerivice == null) {
-			studentSerivice = new StudentSerivice();
-		}
-//		studentSerivice.addStudent(new Student(null, name_editText.getText().toString(),
-//				Integer.valueOf(age_editText.getText().toString()), Double.valueOf(score_editText.getText().toString()),
-//				fancy_editText.getText().toString(), System.currentTimeMillis() + ""), this);
-		
+
 		StoolService stoolService = new StoolService() ;
 		Stool stool = new Stool() ;
 		stool.setDdat(new Date()) ;
 		stool.setStoolyn("Y") ;
 		stool.setType(1)      ;
-//		stool.setAmount(3);
 		stoolService.save(stool) ;
-		
-	}
 
-	public void serachEvent(View view) {
-		if (studentSerivice == null) {
-			studentSerivice = new StudentSerivice();
-		}
-		
+	}
+	public void deleteEvent(View view) {
+
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
 		if (daoSession != null) {
 			StoolDao stoolDao  = daoSession.getStoolDao() ;
-			List<Stool> stools = stoolDao.loadAll() ;
-			int size = stools.size() ;
+			list_students = stoolDao.loadAll() ;
+			int size = list_students.size() ;
 			StoolService stoolService = new StoolService() ;
-			stoolService.delete(stools.get(0)) ;
-		}
-		
-		StoolDao stoolDao  = daoSession.getStoolDao() ;
-		List<Stool> stools = stoolDao.loadAll() ;
-		if (stools != null) {
-			list_students.clear();
-			list_students.addAll(stools);
+			if(size!=0){
+				stoolService.delete(list_students.get(0)) ;
+			}
+			studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
+			result_listView.setAdapter(studentAdpter);
 			studentAdpter.notifyDataSetChanged();
 		}
-		
-		int size = stools.size() ;
-		size = 0 ;
+
+	}
+	public void serachEvent(View view) { 
+		if (studentSerivice == null) {
+			studentSerivice = new StudentSerivice();
+		}
+
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+
+		StoolDao stoolDao  = daoSession.getStoolDao() ;
+		list_students = stoolDao.loadAll() ;
+		studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
+		result_listView.setAdapter(studentAdpter);
+		studentAdpter.notifyDataSetChanged();
+
 	}
 
 	@Override
@@ -119,13 +122,14 @@ public class DBActivity extends BaseActivity {
 		}
 		EventBus.getDefault().unregister(this) ;
 	}
-	
+
 	public void onEventMainThread(DiaryResposityEvent even) {
 		if(even.getEventType() == DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS){
+			showToast("OK");
 			int i = 0 ;
 			i++ ;
 		}
 	}
 
-	
+
 }

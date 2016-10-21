@@ -60,7 +60,7 @@ public class MvnDBActivity extends BaseActivity {
 	void initData() {
 		// TODO Auto-generated method stub
 		list_students = new ArrayList<Mvn>();
-		mvnAdpter = new MvnAdpter(this, list_students, R.layout.item_student_layout);
+
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class MvnDBActivity extends BaseActivity {
 		score_editText = (EditText) findViewById(R.id.score_editText);
 		age_editText = (EditText) findViewById(R.id.age_editText);
 		fancy_editText = (EditText) findViewById(R.id.fancy_editText);
-		result_listView.setAdapter(mvnAdpter);
+
 		name_editText.setHint("哭类型");
 		age_editText.setHint("原因");
 		fancy_editText.setHint("量");
@@ -86,10 +86,10 @@ public class MvnDBActivity extends BaseActivity {
 		mvn.setDeleteReason(age_editText.getText().toString())      ;
 		mvn.setCmroute(fancy_editText.getText().toString());
 		mvnService.save(mvn) ;
-		
+
 	}
 	public void deleteEvent(View view) {
-		
+
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
@@ -98,18 +98,24 @@ public class MvnDBActivity extends BaseActivity {
 			list_students = mvnDao.loadAll() ;
 			int size = list_students.size() ;
 			MvnService mvnService = new MvnService() ;
-			mvnService.delete(list_students.get(0)) ;
+			if(size!=0){
+				mvnService.delete(list_students.get(0)) ;
+			}
+			mvnAdpter = new MvnAdpter(this, list_students, R.layout.item_student_layout);
+			result_listView.setAdapter(mvnAdpter);
 			mvnAdpter.notifyDataSetChanged();
 		}
-		
+
 	}
 	public void serachEvent(View view) {
-		
+
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
-		
+
 		MvnDao mvnDao  = daoSession.getMvnDao() ;
 		list_students = mvnDao.loadAll() ;
+		mvnAdpter = new MvnAdpter(this, list_students, R.layout.item_student_layout);
+		result_listView.setAdapter(mvnAdpter);
 		mvnAdpter.notifyDataSetChanged();
 	}
 
@@ -122,13 +128,14 @@ public class MvnDBActivity extends BaseActivity {
 		}
 		EventBus.getDefault().unregister(this) ;
 	}
-	
+
 	public void onEventMainThread(DiaryResposityEvent even) {
 		if(even.getEventType() == DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_SUCCESS){
+			showToast("OK");
 			int i = 0 ;
 			i++ ;
 		}
 	}
 
-	
+
 }
