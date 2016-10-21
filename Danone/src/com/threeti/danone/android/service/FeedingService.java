@@ -3,6 +3,9 @@
  */
 package com.threeti.danone.android.service;
 
+import com.threeti.danone.android.respositoty.CryingRespository;
+import com.threeti.danone.android.respositoty.FeedingRespository;
+
 /**
  * @author ztcao
  *
@@ -10,7 +13,7 @@ package com.threeti.danone.android.service;
 public class FeedingService extends DiaryService{
 
 	public FeedingService() {
-	
+		diaryRespository=new FeedingRespository();
 	}
 
 }

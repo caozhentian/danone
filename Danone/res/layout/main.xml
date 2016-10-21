@@ -6,26 +6,26 @@
     android:orientation="vertical" >
 
     <Button
-        android:onClick="longinEvent"
+        android:onClick="CringEvent"
         android:background="@drawable/login_edit_back"
-        android:text="login(网络_Gson解析)"
+        android:text="Cring"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
     
     
     <Button
         android:layout_marginTop="10dp"
-        android:onClick="upLoadEvent"
+        android:onClick="feedEvent"
         android:background="@drawable/login_edit_back"
-        android:text="图片上传"
+        android:text="feed"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
     
     <Button
         android:layout_marginTop="10dp"
-        android:onClick="showImgEvent"
+        android:onClick="mvnEvent"
         android:background="@drawable/login_edit_back"
-        android:text="show 图片"
+        android:text="mvn"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
     <Button

@@ -31,16 +31,16 @@ public class MainActivity extends BaseActivity {
 
 	}
 
-	public void longinEvent(View view) {
-		startActivity(new Intent(this, LoginActivity.class));
+	public void CringEvent(View view) {
+		startActivity(new Intent(this, CryingDBActivity.class));
 	}
 
-	public void upLoadEvent(View view) {
-		startActivity(new Intent(this, ImgUpLoadActivity.class));
+	public void feedEvent(View view) {
+		startActivity(new Intent(this, FeedDBActivity.class));
 	}
 
-	public void showImgEvent(View view) {
-		startActivity(new Intent(this, ShowImgActivity.class));
+	public void mvnEvent(View view) {
+		startActivity(new Intent(this, MvnDBActivity.class));
 	}
 
 	public void DBEvent(View view) {

@@ -18,13 +18,15 @@ public class Generator {
 
 		// 添加实体
 		addEntity(schema);
-		addCrying(schema);
 		addSpitting_up(schema);
-		//addStool(schema);
-		//		AddOneToMany(schema);
+		addStool(schema);
+		addMvn(schema);
+		addFeeding(schema);
+		addCrying(schema);
+		//AddOneToMany(schema);
 		//		AddManyToMany(schema);
 
-		String outDir = "E:\\工作\\Danone\\code\\code\\Danone\\src";
+		String outDir = "E:/danone/Danone/src";
 		// 调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
 		try {
 			new DaoGenerator().generateAll(schema, outDir);
@@ -37,38 +39,6 @@ public class Generator {
 	private  static void addCrying(Schema schema){
 		Entity entity =schema.addEntity("Crying");
 		entity.setTableName("Crying");
-		entity.addStringProperty("id").notNull();
-		entity.addStringProperty("app_id").notNull();
-		entity.addStringProperty("infant_id");
-		entity.addStringProperty("crytype").notNull();
-		entity.addStringProperty("modify_reason");
-		entity.addStringProperty("delete_reason");
-		entity.addStringProperty("time_of_day");
-		entity.addStringProperty("cryinyn");
-		entity.addLongProperty("ddat").notNull();
-		entity.addLongProperty("crysttim").notNull();
-		entity.addLongProperty("cryentim").notNull();
-		entity.addIntProperty("delete_status");
-	}
-//spitting_up数据表
-	private  static void addSpitting_up(Schema schema){
-		Entity entity =schema.addEntity("Spitting_up");
-		entity.setTableName("spitting_up");
-		entity.addStringProperty("id").notNull();
-		entity.addStringProperty("app_id").notNull();
-		entity.addStringProperty("modify_reason");
-		entity.addStringProperty("delete_reason");
-		entity.addStringProperty("infant_id");
-		entity.addLongProperty("ddat").notNull();
-		entity.addIntProperty("type");
-		entity.addIntProperty("amount");
-		entity.addIntProperty("delete_status");
-	}
-//stool数据表
-	private  static void addStool(Schema schema){
-		Entity entity =schema.addEntity("Stool") ;
-		schema.enableKeepSectionsByDefault()     ;
-		entity.setTableName("stool");
 		entity.setSuperclass("Diary") ;
 		entity.addStringProperty("appId").notNull().primaryKey();
 		entity.addStringProperty("serverId").columnName("server_Id");
@@ -77,10 +47,84 @@ public class Generator {
 		entity.addStringProperty("infantId").columnName("infant_id");
 		entity.addDateProperty("ddat").notNull();
 		entity.addIntProperty("status");
-		entity.addStringProperty("stoolyn");
-		entity.addIntProperty("type");
-		entity.addIntProperty("amount");
+		entity.addStringProperty("crytype");
+		entity.addStringProperty("timeOfDay").columnName("time_of_day");
+		entity.addStringProperty("cryinyn");
+		entity.addLongProperty("crysttim").notNull();
+		entity.addLongProperty("cryentim").notNull();
+	}
+//spitting_up数据表
+	private  static void addSpitting_up(Schema schema){
+		Entity entity =schema.addEntity("SpittingUp");
+		entity.setTableName("spitting_up"); 
+		entity.setSuperclass("Diary") ;
+		entity.addStringProperty("appId").notNull().primaryKey();
+		entity.addStringProperty("serverId").columnName("server_Id");
+		entity.addStringProperty("modifyReason").columnName("modify_reason");
+		entity.addStringProperty("deleteReason").columnName("delete_reason");
+		entity.addStringProperty("infantId").columnName("infant_id");
+		entity.addDateProperty("ddat").notNull();
+		entity.addIntProperty("status");
+		entity.addStringProperty("reguNumber");
+		entity.addStringProperty("vomiNumber");
+	}
+	
+	//stool数据表
+		private  static void addStool(Schema schema){
+			Entity entity =schema.addEntity("Stool") ;
+			schema.enableKeepSectionsByDefault()     ;
+			entity.setTableName("stool");
+			entity.setSuperclass("Diary") ;
+			entity.addStringProperty("appId").notNull().primaryKey();
+			entity.addStringProperty("serverId").columnName("server_Id");
+			entity.addStringProperty("modifyReason").columnName("modify_reason");
+			entity.addStringProperty("deleteReason").columnName("delete_reason");
+			entity.addStringProperty("infantId").columnName("infant_id");
+			entity.addDateProperty("ddat").notNull();
+			entity.addIntProperty("status");
+			entity.addStringProperty("stoolyn");
+			entity.addStringProperty("image");
+			entity.addIntProperty("type");
+			
+		}
+//feeding数据表
+	private  static void addFeeding(Schema schema){
+		Entity entity =schema.addEntity("Feed") ;
+		schema.enableKeepSectionsByDefault()     ;
+		entity.setTableName("feed");
+		entity.setSuperclass("Diary") ;
+		entity.addStringProperty("appId").notNull().primaryKey();
+		entity.addStringProperty("serverId").columnName("server_Id");
+		entity.addStringProperty("modifyReason").columnName("modify_reason");
+		entity.addStringProperty("deleteReason").columnName("delete_reason");
+		entity.addStringProperty("infantId").columnName("infant_id");
+		entity.addIntProperty("status");
+		entity.addDateProperty("ddat").notNull();
+		entity.addIntProperty("studyNumber").columnName("study_number");
+		entity.addIntProperty("formulaNumber").columnName("formula_number");
+		entity.addIntProperty("beverNumber").columnName("bever_number");
+		entity.addIntProperty("compNumber").columnName("comp_number");
+		entity.addIntProperty("breastNumber").columnName("breast_number");
+	
 		
+	}
+//mvn数据表
+	private  static void addMvn(Schema schema){
+		Entity entity =schema.addEntity("Mvn") ;
+		schema.enableKeepSectionsByDefault()     ;
+		entity.setTableName("mvn");
+		entity.setSuperclass("Diary") ;
+		entity.addStringProperty("appId").notNull().primaryKey();
+		entity.addStringProperty("serverId").columnName("server_Id");
+		entity.addStringProperty("modifyReason").columnName("modify_reason");
+		entity.addStringProperty("deleteReason").columnName("delete_reason");
+		entity.addStringProperty("infantId").columnName("infant_id");
+		entity.addDateProperty("ddat").notNull();
+		entity.addIntProperty("status");
+		entity.addIntProperty("type");
+		entity.addStringProperty("cmtrt");
+		entity.addStringProperty("cmroute");
+		entity.addStringProperty("cmindsp");
 	}
 
 	private static void addTc(Schema schema){

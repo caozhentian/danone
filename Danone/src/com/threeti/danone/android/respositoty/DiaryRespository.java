@@ -235,4 +235,6 @@ public abstract class DiaryRespository {
 	protected void postDiaryEvent(int eventType){
 		EventBus.getDefault().post(new DiaryResposityEvent(eventType)) ;
 	}
+
+	
 }

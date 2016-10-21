@@ -11,28 +11,32 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
+import com.threeti.danone.android.adpter.CryingAdpter;
 import com.threeti.danone.android.adpter.StudentAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
+import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.service.CryingService;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.android.service.StudentSerivice;
+import com.threeti.danone.common.bean.Crying;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.bean.Student;
 
 import de.greenrobot.event.EventBus;
 
-public class DBActivity extends BaseActivity {
+public class CryingDBActivity extends BaseActivity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
 	private StudentSerivice studentSerivice;
 
-	private StudentAdpter studentAdpter;
+	private CryingAdpter cryingAdpter;
 
-	private List<Student> list_students;
+	private List<Crying> list_students;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -47,8 +51,8 @@ public class DBActivity extends BaseActivity {
 	@Override
 	void initData() {
 		// TODO Auto-generated method stub
-		list_students = new ArrayList<Student>();
-		studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
+		list_students = new ArrayList<Crying>();
+		cryingAdpter = new CryingAdpter(this, list_students, R.layout.item_student_layout);
 	}
 
 	@Override
@@ -59,25 +63,37 @@ public class DBActivity extends BaseActivity {
 		score_editText = (EditText) findViewById(R.id.score_editText);
 		age_editText = (EditText) findViewById(R.id.age_editText);
 		fancy_editText = (EditText) findViewById(R.id.fancy_editText);
-		result_listView.setAdapter(studentAdpter);
-
+		result_listView.setAdapter(cryingAdpter);
+		name_editText.setHint("哭类型");
+		age_editText.setHint("开始时间");
+		fancy_editText.setHint("结束时间");
 	}
 
 	public void addEvent(View view) {
 
-		if (studentSerivice == null) {
-			studentSerivice = new StudentSerivice();
-		}
-//		studentSerivice.addStudent(new Student(null, name_editText.getText().toString(),
-//				Integer.valueOf(age_editText.getText().toString()), Double.valueOf(score_editText.getText().toString()),
-//				fancy_editText.getText().toString(), System.currentTimeMillis() + ""), this);
 		
-		StoolService stoolService = new StoolService() ;
-		Stool stool = new Stool() ;
-		stool.setDdat(new Date()) ;
-		stool.setStoolyn("Y") ;
-		stool.setType(1)      ;
-		stoolService.save(stool) ;
+		CryingService cryingService = new CryingService() ;
+		Crying crying = new Crying() ;
+		crying.setDdat(new Date()) ;
+		crying.setCrytype(name_editText.getText().toString()) ;
+		crying.setCrysttim(Integer.parseInt(age_editText.getText().toString()));
+		crying.setCryentim(Integer.parseInt(fancy_editText.getText().toString()));
+		cryingService.save(crying) ;
+		
+	}
+	public void deleteEvent(View view) {
+		
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			CryingDao cryingDao  = daoSession.getCryingDao() ;
+			list_students = cryingDao.loadAll() ;
+			int size = list_students.size() ;
+			CryingService cryingService = new CryingService() ;
+			cryingService.delete(list_students.get(0)) ;
+			cryingAdpter.notifyDataSetChanged();
+		}
 		
 	}
 
@@ -86,18 +102,10 @@ public class DBActivity extends BaseActivity {
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
-		if (daoSession != null) {
-			StoolDao stoolDao  = daoSession.getStoolDao() ;
-			List<Stool> stools = stoolDao.loadAll() ;
-			int size = stools.size() ;
-			StoolService stoolService = new StoolService() ;
-			stoolService.delete(stools.get(0)) ;
-		}
 		
-		StoolDao stoolDao  = daoSession.getStoolDao() ;
-		List<Stool> stools = stoolDao.loadAll() ;
-		int size = stools.size() ;
-		size = 0 ;
+		CryingDao cryingDao  = daoSession.getCryingDao() ;
+		list_students = cryingDao.loadAll() ;
+		cryingAdpter.notifyDataSetChanged();
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import com.threeti.danone.common.model.Diary;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 /**
- * Entity mapped to table "stool".
+ * Entity mapped to table "feed".
  */
-public class Stool extends Diary  {
+public class Feed extends Diary  {
 
     /** Not-null value. */
     private String appId;
@@ -17,34 +17,38 @@ public class Stool extends Diary  {
     private String modifyReason;
     private String deleteReason;
     private String infantId;
+    private Integer status;
     /** Not-null value. */
     private java.util.Date ddat;
-    private Integer status;
-    private String stoolyn;
-    private String image;
-    private Integer type;
+    private Integer studyNumber;
+    private Integer formulaNumber;
+    private Integer beverNumber;
+    private Integer compNumber;
+    private Integer breastNumber;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Stool() {
+    public Feed() {
     }
 
-    public Stool(String appId) {
+    public Feed(String appId) {
         this.appId = appId;
     }
 
-    public Stool(String appId, String serverId, String modifyReason, String deleteReason, String infantId, java.util.Date ddat, Integer status, String stoolyn, String image, Integer type) {
+    public Feed(String appId, String serverId, String modifyReason, String deleteReason, String infantId, Integer status, java.util.Date ddat, Integer studyNumber, Integer formulaNumber, Integer beverNumber, Integer compNumber, Integer breastNumber) {
         this.appId = appId;
         this.serverId = serverId;
         this.modifyReason = modifyReason;
         this.deleteReason = deleteReason;
         this.infantId = infantId;
-        this.ddat = ddat;
         this.status = status;
-        this.stoolyn = stoolyn;
-        this.image = image;
-        this.type = type;
+        this.ddat = ddat;
+        this.studyNumber = studyNumber;
+        this.formulaNumber = formulaNumber;
+        this.beverNumber = beverNumber;
+        this.compNumber = compNumber;
+        this.breastNumber = breastNumber;
     }
 
     /** Not-null value. */
@@ -89,6 +93,7 @@ public class Stool extends Diary  {
         this.infantId = infantId;
     }
 
+
     /** Not-null value. */
     public java.util.Date getDdat() {
         return ddat;
@@ -99,29 +104,44 @@ public class Stool extends Diary  {
         this.ddat = ddat;
     }
 
-
-    public String getStoolyn() {
-        return stoolyn;
+    public Integer getStudyNumber() {
+        return studyNumber;
     }
 
-    public void setStoolyn(String stoolyn) {
-        this.stoolyn = stoolyn;
+    public void setStudyNumber(Integer studyNumber) {
+        this.studyNumber = studyNumber;
     }
 
-    public String getImage() {
-        return image;
+    public Integer getFormulaNumber() {
+        return formulaNumber;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setFormulaNumber(Integer formulaNumber) {
+        this.formulaNumber = formulaNumber;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getBeverNumber() {
+        return beverNumber;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setBeverNumber(Integer beverNumber) {
+        this.beverNumber = beverNumber;
+    }
+
+    public Integer getCompNumber() {
+        return compNumber;
+    }
+
+    public void setCompNumber(Integer compNumber) {
+        this.compNumber = compNumber;
+    }
+
+    public Integer getBreastNumber() {
+        return breastNumber;
+    }
+
+    public void setBreastNumber(Integer breastNumber) {
+        this.breastNumber = breastNumber;
     }
 
     // KEEP METHODS - put your custom methods here

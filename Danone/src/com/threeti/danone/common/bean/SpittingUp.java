@@ -7,9 +7,9 @@ import com.threeti.danone.common.model.Diary;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 /**
- * Entity mapped to table "stool".
+ * Entity mapped to table "spitting_up".
  */
-public class Stool extends Diary  {
+public class SpittingUp extends Diary  {
 
     /** Not-null value. */
     private String appId;
@@ -20,21 +20,20 @@ public class Stool extends Diary  {
     /** Not-null value. */
     private java.util.Date ddat;
     private Integer status;
-    private String stoolyn;
-    private String image;
-    private Integer type;
+    private String reguNumber;
+    private String vomiNumber;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Stool() {
+    public SpittingUp() {
     }
 
-    public Stool(String appId) {
+    public SpittingUp(String appId) {
         this.appId = appId;
     }
 
-    public Stool(String appId, String serverId, String modifyReason, String deleteReason, String infantId, java.util.Date ddat, Integer status, String stoolyn, String image, Integer type) {
+    public SpittingUp(String appId, String serverId, String modifyReason, String deleteReason, String infantId, java.util.Date ddat, Integer status, String reguNumber, String vomiNumber) {
         this.appId = appId;
         this.serverId = serverId;
         this.modifyReason = modifyReason;
@@ -42,9 +41,8 @@ public class Stool extends Diary  {
         this.infantId = infantId;
         this.ddat = ddat;
         this.status = status;
-        this.stoolyn = stoolyn;
-        this.image = image;
-        this.type = type;
+        this.reguNumber = reguNumber;
+        this.vomiNumber = vomiNumber;
     }
 
     /** Not-null value. */
@@ -99,29 +97,20 @@ public class Stool extends Diary  {
         this.ddat = ddat;
     }
 
-
-    public String getStoolyn() {
-        return stoolyn;
+    public String getReguNumber() {
+        return reguNumber;
     }
 
-    public void setStoolyn(String stoolyn) {
-        this.stoolyn = stoolyn;
+    public void setReguNumber(String reguNumber) {
+        this.reguNumber = reguNumber;
     }
 
-    public String getImage() {
-        return image;
+    public String getVomiNumber() {
+        return vomiNumber;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
+    public void setVomiNumber(String vomiNumber) {
+        this.vomiNumber = vomiNumber;
     }
 
     // KEEP METHODS - put your custom methods here
