@@ -3,35 +3,28 @@
  */
 package com.threeti.danone.android.respositoty;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import android.content.Context;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
-import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.CryingDao;
-import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.android.db.dao.CryingDao.Properties;
-import com.threeti.danone.common.bean.BaseModel;
+import com.threeti.danone.android.db.dao.DaoSession;
+import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.Crying;
+import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.common.util.NumberIntersectUtil;
-import com.threeti.danone.manager.net.RetrofitFactory;
-import com.threeti.danone.manager.net.StoolApiService;
 
 /**
  * @author ztcao
@@ -237,6 +230,7 @@ public class CryingRespository extends DiaryRespository {
 	
 	public boolean isOverride(final Crying crying){
 		boolean override = false ;
+		@SuppressWarnings("unchecked")
 		List<Crying> cryinges          = (List<Crying>) query(crying.getDdat() , 0) ;
 		@SuppressWarnings("unchecked")
 		List<Crying> intersectCryinges   = (List<Crying>) NumberIntersectUtil.isIntersect(crying, cryinges) ;
@@ -247,7 +241,7 @@ public class CryingRespository extends DiaryRespository {
 	}
 	
 	public void override(final Crying crying){
-		@SuppressWarnings("unchecked")
+
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 		final CryingDao cryinglDao =  daoSession.getCryingDao() ; 
@@ -273,20 +267,24 @@ public class CryingRespository extends DiaryRespository {
 			cryinglDao.getSession().runInTx(new Runnable() {  
 		            @Override  
 		            public void run() { 
-		            	if(deleteCryinges.size() != 0){
-		            		cryinglDao.deleteInTx(deleteCryinges) ;
+		            	try{
+			            	if(deleteCryinges.size() != 0){
+			            		cryinglDao.deleteInTx(deleteCryinges) ;
+			            	}
+			            	if(deleteLogicCryinges.size() != 0){
+			            		cryinglDao.updateInTx(deleteLogicCryinges) ;
+			            	}
+			            	//override crying 接口 
+			            	
+			            	create(crying) ;
+		            	}catch(Exception e){
+		            		e.printStackTrace() ;
+		            		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)    ;
+		            		return ;
 		            	}
-		            	if(deleteLogicCryinges.size() != 0){
-		            		cryinglDao.updateInTx(deleteLogicCryinges) ;
-		            	}
-//		            	crying.setAppId(UUID.randomUUID().toString()) ;
-//		            	crying.setStatus(Diary.OPP_ADD) ;
-//		            	loacalInsert(crying) ;
-		            	create(crying) ;
 		            }  
 		    });
 	    }
-		
 		
 	}
 	
