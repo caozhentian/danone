@@ -5,6 +5,8 @@ import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
+
+
 public class Generator {
 
 	public static void main(String[] args) {
@@ -26,7 +28,7 @@ public class Generator {
 		//AddOneToMany(schema);
 		//		AddManyToMany(schema);
 
-		String outDir = "E:/danone/Danone/src";
+		String outDir = "E:\\工作\\codegithub\\danone\\Danone\\src";
 		// 调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
 		try {
 			new DaoGenerator().generateAll(schema, outDir);
