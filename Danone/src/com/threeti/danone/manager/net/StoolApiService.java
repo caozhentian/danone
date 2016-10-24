@@ -15,10 +15,10 @@ import com.threeti.danone.common.bean.Stool;
  */
 public interface StoolApiService {
 
-	@Headers({"Content-Type: application/json","Accept: application/json"})//sync one stool
+	@Headers({"Content-Type: application/json; charset=utf-8","Accept: application/json"})//sync one stool
 	Call<BaseModel<Stool>> sync(@Body Stool stool) ;
 	
-	@Headers({"Content-Type: application/json","Accept: application/json"})//sync many stools
+	@Headers({"Content-Type: application/json; charset=utf-8","Accept: application/json"})//sync many stools
 	Call<BaseModel<List<Stool>>> sync(@Body List<Stool> stool) ;
 	
 }

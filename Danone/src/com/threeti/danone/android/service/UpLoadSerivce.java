@@ -2,11 +2,9 @@ package com.threeti.danone.android.service;
 
 import java.io.File;
 
-import com.threeti.danone.android.respositoty.UpLoadRespositoty;
-
-import android.content.Context;
 import android.os.Handler;
-import android.widget.TextView;
+
+import com.threeti.danone.android.respositoty.UpLoadRespositoty;
 
 
 public class UpLoadSerivce {

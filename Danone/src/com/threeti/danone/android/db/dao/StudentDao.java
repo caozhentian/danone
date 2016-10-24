@@ -1,12 +1,12 @@
 package com.threeti.danone.android.db.dao;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.database.Database;
+import de.greenrobot.dao.database.DatabaseStatement;
 
 import com.threeti.danone.android.db.converter.ItenPropertyConverter;
 import java.lang.String;
@@ -45,7 +45,7 @@ public class StudentDao extends AbstractDao<Student, Long> {
     }
 
     /** Creates the underlying database table. */
-    public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
+    public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"student\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
@@ -57,14 +57,14 @@ public class StudentDao extends AbstractDao<Student, Long> {
     }
 
     /** Drops the underlying database table. */
-    public static void dropTable(SQLiteDatabase db, boolean ifExists) {
+    public static void dropTable(Database db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"student\"";
         db.execSQL(sql);
     }
 
     /** @inheritdoc */
     @Override
-    protected void bindValues(SQLiteStatement stmt, Student entity) {
+    protected void bindValues(DatabaseStatement stmt, Student entity) {
         stmt.clearBindings();
  
         Long id = entity.getId();
