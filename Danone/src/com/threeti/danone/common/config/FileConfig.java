@@ -16,10 +16,14 @@ public class FileConfig {
     public static final String LOG_PATH = "log" ;
     
     public static void initFileConfig(){
-    	if(Debug.DEV_MODE){
-    		File dirFile = new File(FileConfig.APP_DEV_BASE_DIR);  
-            if (!dirFile.exists())  
-                dirFile.mkdirs();
-    	}
+    	
+		File dirFile = new File(FileConfig.APP_DEV_BASE_DIR);  
+        if (!dirFile.exists())  
+            dirFile.mkdirs();
+        
+        File dirLog = new File(FileConfig.APP_DEV_BASE_DIR + File.separator + LOG_PATH);  
+        if (!dirLog.exists())  
+        	dirLog.mkdirs();
+    	
     }
 }
