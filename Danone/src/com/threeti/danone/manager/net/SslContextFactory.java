@@ -10,8 +10,7 @@ import java.security.KeyStore;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.R;
 import com.threeti.danone.android.application.DanoneApplication;
@@ -21,7 +20,6 @@ import com.threeti.danone.android.application.DanoneApplication;
  *
  */
 public class SslContextFactory {    
-	public static final Logger loger = LoggerFactory.getLogger(SslContextFactory.class) ;
 	
 	private static final String CLIENT_TRUST_PASSWORD = "changeit";//(信任证书密码，该证书默认密码是changeit)    
 	private static final String CLIENT_AGREEMENT = "TLS";//(使用协议  )  
@@ -42,7 +40,7 @@ public class SslContextFactory {
 			trustManager.init(tks);                        
 			sslContext.init(null, trustManager.getTrustManagers(), null);        
 		} catch (Exception e) {           
-			loger.error(e.getMessage())    ;  
+			NLogger.e("uncaughtException", e);
 		} 
 		finally{
 			if(is != null){

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import cn.jesse.nativelogger.NLogger;
+
 import com.threeti.danone.R;
 import com.threeti.danone.android.adpter.MvnAdpter;
 import com.threeti.danone.android.adpter.StudentAdpter;
@@ -45,13 +47,14 @@ public class DBActivity extends BaseActivity {
 		initData();
 		initView();
 		EventBus.getDefault().register(this) ;
+		NLogger.d("nlogger teest") ;
 	}
 
 	@Override
 	void initData() {
 		// TODO Auto-generated method stub
 		list_students = new ArrayList<Stool>();
-
+		NLogger.e("nlogger teest") ;
 	}
 
 	@Override
