@@ -1,12 +1,12 @@
 package com.threeti.danone.android.db.dao;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.database.Database;
+import de.greenrobot.dao.database.DatabaseStatement;
 
 import com.threeti.danone.common.bean.Stool;
 
@@ -45,7 +45,7 @@ public class StoolDao extends AbstractDao<Stool, String> {
     }
 
     /** Creates the underlying database table. */
-    public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
+    public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"stool\" (" + //
                 "\"APP_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: appId
@@ -61,14 +61,14 @@ public class StoolDao extends AbstractDao<Stool, String> {
     }
 
     /** Drops the underlying database table. */
-    public static void dropTable(SQLiteDatabase db, boolean ifExists) {
+    public static void dropTable(Database db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"stool\"";
         db.execSQL(sql);
     }
 
     /** @inheritdoc */
     @Override
-    protected void bindValues(SQLiteStatement stmt, Stool entity) {
+    protected void bindValues(DatabaseStatement stmt, Stool entity) {
         stmt.clearBindings();
         stmt.bindString(1, entity.getAppId());
  

@@ -1,22 +1,31 @@
 package com.threeti.danone.android.db;
 
-import com.threeti.danone.android.db.dao.DaoMaster;
-import com.threeti.danone.android.db.dao.DaoSession;
+import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.threeti.danone.android.db.dao.DaoMaster;
+import com.threeti.danone.android.db.dao.DaoSession;
+import com.threeti.danone.common.config.DatabaseConfig;
+import com.threeti.danone.common.config.Debug;
+import com.threeti.danone.common.config.FileConfig;
+
+import de.greenrobot.dao.database.Database;
 import de.greenrobot.dao.query.QueryBuilder;
 
 public class DaoManager {
 	private static final String TAG = DaoManager.class.getSimpleName();
-	private static final String DB_NAME = "empty.db";// 数据库名称
+	private static final String DB_NAME = "danone.db";// 数据库名称
 	private volatile static DaoManager mDaoManager;// 多线程访问
-	private static DaoMaster.DevOpenHelper mHelper;
+	private static DaoMaster.EncryptedDevOpenHelper mHelper;
 	private static DaoMaster mDaoMaster;
 	private static DaoSession mDaoSession;
 	private static SQLiteDatabase db;
 	private Context context;
-	private SQLiteDatabase sqLiteDatabase;
+	private Database sqLiteDatabase;
 
 	/**
 	 * 使用单例模式获得操作数据库的对象
@@ -53,8 +62,40 @@ public class DaoManager {
 	 */
 	public DaoMaster getDaoMaster() {
 		if (null == mDaoMaster) {
-			mHelper = new DaoMaster.DevOpenHelper(context, DB_NAME, null);
-			sqLiteDatabase = mHelper.getWritableDatabase();
+			if(Debug.DEV_MODE){
+				mHelper = new DaoMaster.EncryptedDevOpenHelper(new ContextWrapper(context){
+				
+		                @Override  
+		                public File getDatabasePath(String name) {        
+	                        File dirFile = new File(FileConfig.APP_DEV_BASE_DIR);  
+	                        if (!dirFile.exists())  
+	                            dirFile.mkdirs();  
+	  
+	                        // 数据库文件是否创建成功  
+	                        boolean isFileCreateSuccess = false;  
+	                        // 判断文件是否存在，不存在则创建该文件  
+	                        File dbFile = new File(FileConfig.APP_DEV_BASE_DIR + FileConfig.DB_NAME);  
+	                        if (!dbFile.exists()) {  
+	                            try {  
+	                                isFileCreateSuccess = dbFile.createNewFile();// 创建文件  
+	                            } catch (IOException e) {  
+	                                e.printStackTrace();  
+	                            }  
+	                        } else  
+	                            isFileCreateSuccess = true;  
+	                        // 返回数据库文件对象  
+	                        if (isFileCreateSuccess)  
+	                            return dbFile;  
+	                        else  
+	                            return super.getDatabasePath(name);  
+			                      
+			                }  
+				}, DB_NAME);
+			}
+			else{
+				mHelper = new DaoMaster.EncryptedDevOpenHelper(context , DB_NAME) ;
+			}
+			sqLiteDatabase = mHelper.getWritableDatabase(DatabaseConfig.ENCRYP_PASSWORD) ;
 			mDaoMaster = new DaoMaster(sqLiteDatabase);
 		}
 		return mDaoMaster;

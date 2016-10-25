@@ -1,5 +1,7 @@
 package com.threeti.danone.manager.net;
 
+import javax.net.ssl.SSLSocketFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.threeti.danone.common.config.IpConfig;
@@ -26,6 +28,24 @@ public class RetrofitFactory {
 				.addConverterFactory(GsonConverterFactory.create(gson)).client(client).build();
 		return retrofit;
 
+	}
+	
+	/** support https 
+	 * @return 
+	 */
+	public static Retrofit getBaseRetrofitHttps() {
+		SSLSocketFactory sslSocketFactory = new SslContextFactory().getSslSocket().getSocketFactory();
+		OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder().sslSocketFactory(sslSocketFactory);
+		new OkHttpClient.Builder().sslSocketFactory(sslSocketFactory, null) ;
+		
+		
+		Gson gson = new GsonBuilder()
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+        .create();//define datefamat
+		
+		Retrofit retrofit = new Retrofit.Builder().baseUrl(IpConfig.BASIC_URL)
+				.addConverterFactory(GsonConverterFactory.create(gson)).client(okHttpClient.build()).build();
+		return retrofit;
 	}
 
 	public static Retrofit getDownRetrofit(DownInterceptor downInterceptor) {

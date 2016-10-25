@@ -8,10 +8,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.content.Context;
+
+import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -35,8 +34,7 @@ import de.greenrobot.dao.query.QueryBuilder;
  */
 public class CryingRespository extends DiaryRespository {
 
-	private static Logger loger = LoggerFactory
-			.getLogger(CryingRespository.class);
+	public static final String TAG = "CryingRespository" ;
 	
 	@Override
 	protected boolean localDelete(Diary diary) {
@@ -51,7 +49,7 @@ public class CryingRespository extends DiaryRespository {
 					feedDao.delete((Crying)diary) ;
 					isDeleteSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}
@@ -71,7 +69,7 @@ public class CryingRespository extends DiaryRespository {
 					feedDao.update((Crying)diary);
 					isUpdateSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}
@@ -93,7 +91,7 @@ public class CryingRespository extends DiaryRespository {
 						isInsertSucess = true;
 				}
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}
@@ -137,7 +135,7 @@ public class CryingRespository extends DiaryRespository {
 				List<Crying> cryings = cryingDao.queryBuilder().where(Properties.Ddat.ge(curDate.getTime())).list() ;
 				return cryings ;
 		    }catch(Exception e){
-		    	e.printStackTrace() ;
+		    	NLogger.e(TAG, e) ;
 		    }
 		}
 		return Collections.emptyList() ;
@@ -185,7 +183,7 @@ public class CryingRespository extends DiaryRespository {
 					cryingDao.insertInTx(crying) ;
 					isInsertSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}

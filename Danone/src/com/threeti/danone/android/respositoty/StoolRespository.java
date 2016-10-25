@@ -9,19 +9,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import android.content.Context;
 
+import cn.jesse.nativelogger.NLogger;
+
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
-import com.threeti.danone.android.db.dao.StoolDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.db.dao.StoolDao.Properties;
 import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
@@ -37,8 +36,7 @@ import de.greenrobot.dao.query.QueryBuilder;
  */
 public class StoolRespository extends DiaryRespository {
 
-	private static Logger loger = LoggerFactory
-			.getLogger(StoolRespository.class);
+	public static final String TAG = "StoolRespository" ;
 	
 	@Override
 	protected boolean localDelete(Diary diary) {
@@ -53,7 +51,7 @@ public class StoolRespository extends DiaryRespository {
 					stoolDao.delete((Stool)diary) ;
 					isDeleteSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -73,7 +71,7 @@ public class StoolRespository extends DiaryRespository {
 					stoolDao.update((Stool)diary);
 					isUpdateSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -95,7 +93,7 @@ public class StoolRespository extends DiaryRespository {
 						isInsertSucess = true;
 				}
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -121,12 +119,12 @@ public class StoolRespository extends DiaryRespository {
 				
 			    } catch (IOException e) {
 				// TODO Auto-generated catch block
-				loger.debug(e.toString()) ;
+			    NLogger.e(TAG ,  e);
 				e.printStackTrace();
 			   }
 		}
 		catch(Exception e){
-			loger.debug(e.toString()) ;
+			NLogger.e(TAG ,  e);
 			e.printStackTrace() ;
 		}
 		return isSyncSucess;
@@ -174,7 +172,7 @@ public class StoolRespository extends DiaryRespository {
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			loger.debug(e.toString()) ;
+			NLogger.e(TAG ,  e);
 			e.printStackTrace();
 		}
 		return Collections.emptyList() ;
@@ -201,7 +199,7 @@ public class StoolRespository extends DiaryRespository {
 					stoolDao.insertInTx(stools) ;
 					isInsertSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -240,7 +238,7 @@ public class StoolRespository extends DiaryRespository {
 					stoolDao.deleteInTx(stools) ;
 					isDeleteSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -267,7 +265,7 @@ public class StoolRespository extends DiaryRespository {
 					stoolDao.updateInTx(stools) ;
 					isUpdateSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}

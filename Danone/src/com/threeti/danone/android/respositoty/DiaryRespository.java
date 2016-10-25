@@ -8,9 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.NetUtil;
@@ -23,9 +20,6 @@ import de.greenrobot.event.EventBus;
  */
 public abstract class DiaryRespository {
 
-	private static Logger loger = LoggerFactory
-			.getLogger(DiaryRespository.class);
-	
 	protected abstract boolean localDelete(Diary diary)   ;
 	
 	protected abstract boolean localDelete(List<? extends Diary> diaries)    ;
