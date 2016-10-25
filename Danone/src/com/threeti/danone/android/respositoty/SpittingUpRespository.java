@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import android.content.Context;
+
+import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -32,9 +32,7 @@ import com.threeti.danone.common.bean.Stool;
  *
  */
 public class SpittingUpRespository extends DiaryRespository {
-
-	private static Logger loger = LoggerFactory
-			.getLogger(SpittingUpRespository.class);
+	public static final String TAG = "SpittingUpRespository" ;
 	
 	@Override
 	protected boolean localDelete(Diary diary) {
@@ -49,7 +47,7 @@ public class SpittingUpRespository extends DiaryRespository {
 					spitting_upDao.delete((SpittingUp)diary) ;
 					isDeleteSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -69,7 +67,7 @@ public class SpittingUpRespository extends DiaryRespository {
 					spitting_upDao.update((SpittingUp)diary);
 					isUpdateSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -91,7 +89,7 @@ public class SpittingUpRespository extends DiaryRespository {
 						isInsertSucess = true;
 				}
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -170,7 +168,7 @@ public class SpittingUpRespository extends DiaryRespository {
 					stoolDao.insertInTx(stools) ;
 					isInsertSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}

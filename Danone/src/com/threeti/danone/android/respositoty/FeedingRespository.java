@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import android.content.Context;
+
+import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -36,9 +36,7 @@ import de.greenrobot.dao.query.QueryBuilder;
  *
  */
 public class FeedingRespository extends DiaryRespository {
-
-	private static Logger loger = LoggerFactory
-			.getLogger(FeedingRespository.class);
+	public static final String TAG = "FeedingRespository" ;
 	
 	@Override
 	protected boolean localDelete(Diary diary) {
@@ -53,7 +51,7 @@ public class FeedingRespository extends DiaryRespository {
 					feedDao.delete((Feed)diary) ;
 					isDeleteSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -73,7 +71,7 @@ public class FeedingRespository extends DiaryRespository {
 					feedDao.update((Feed)diary);
 					isUpdateSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -95,7 +93,7 @@ public class FeedingRespository extends DiaryRespository {
 						isInsertSucess = true;
 				}
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -120,7 +118,7 @@ public class FeedingRespository extends DiaryRespository {
 //			
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
-//			loger.debug(e.toString()) ;
+//			NLogger.e(TAG ,  e);
 //			e.printStackTrace();
 //		}
 		return isSyncSucess;
@@ -138,7 +136,7 @@ public class FeedingRespository extends DiaryRespository {
 				List<Feed> feed = feedDao.queryBuilder().where(Properties.Ddat.ge(curDate.getTime())).list() ;
 				return feed ;
 		    }catch(Exception e){
-		    	e.printStackTrace() ;
+		    	NLogger.e(TAG ,  e);
 		    }
 		}
 		return Collections.emptyList() ;
@@ -186,7 +184,7 @@ public class FeedingRespository extends DiaryRespository {
 					feedDao.insertInTx(feeds) ;
 					isInsertSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -222,7 +220,7 @@ public class FeedingRespository extends DiaryRespository {
 					feedDao.deleteInTx(feeds) ;
 					isDeleteSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -249,7 +247,7 @@ public class FeedingRespository extends DiaryRespository {
 					feedDao.updateInTx(feeds) ;
 					isUpdateSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -271,7 +269,7 @@ public class FeedingRespository extends DiaryRespository {
 				List<Feed> feeds = queryBuilder.list() ;
 				return feeds ;
 		   }catch(Exception e){
-		    	e.printStackTrace() ;
+			   NLogger.e(TAG ,  e);
 		    }
 		}
 		return Collections.emptyList() ;
@@ -293,7 +291,7 @@ public class FeedingRespository extends DiaryRespository {
 				List<Feed> feeds = queryBuilder.list() ;
 				return feeds ;
 		    }catch(Exception e){
-		    	e.printStackTrace() ;
+		    	NLogger.e(TAG ,  e);
 		    }
 		}
 		return Collections.emptyList() ;

@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import android.content.Context;
+
+import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -35,8 +35,7 @@ import com.threeti.danone.manager.net.StoolApiService;
  */
 public class MvnRespository extends DiaryRespository {
 
-	private static Logger loger = LoggerFactory
-			.getLogger(MvnRespository.class);
+	public static final String TAG = "MvnRespository" ;
 	
 	@Override
 	protected boolean localDelete(Diary diary) {
@@ -51,7 +50,7 @@ public class MvnRespository extends DiaryRespository {
 					mvnDao.delete((Mvn)diary) ;
 					isDeleteSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -71,7 +70,7 @@ public class MvnRespository extends DiaryRespository {
 					mvnDao.update((Mvn)diary);
 					isUpdateSucess = true ;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -93,7 +92,7 @@ public class MvnRespository extends DiaryRespository {
 						isInsertSucess = true;
 				}
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
@@ -118,7 +117,7 @@ public class MvnRespository extends DiaryRespository {
 //			
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
-//			loger.debug(e.toString()) ;
+//			NLogger.e(TAG ,  e);
 //			e.printStackTrace();
 //		}
 		return isSyncSucess;
@@ -172,7 +171,7 @@ public class MvnRespository extends DiaryRespository {
 					stoolDao.insertInTx(stools) ;
 					isInsertSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG ,  e);
 				}
 			}
 		}
