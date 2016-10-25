@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
-import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.NetUtil;
 
 import de.greenrobot.event.EventBus;

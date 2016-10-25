@@ -20,9 +20,9 @@ import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.Crying;
+import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.common.util.NumberIntersectUtil;
 
@@ -219,7 +219,7 @@ public class CryingRespository extends DiaryRespository {
 					cryingDao.deleteInTx(crying) ;
 					isDeleteSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}
@@ -246,7 +246,7 @@ public class CryingRespository extends DiaryRespository {
 					cryingDao.updateInTx(crying) ;
 					isUpdateSucess = true;
 				}catch(Exception e){
-					loger.debug(e.toString()) ;
+					NLogger.e(TAG, e) ;
 				}
 			}
 		}

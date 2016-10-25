@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.threeti.danone.android.respositoty.DiaryRespository;
+import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.DiaryQueryEvent;
-import com.threeti.danone.common.model.Diary;
 
 import de.greenrobot.event.EventBus;
 

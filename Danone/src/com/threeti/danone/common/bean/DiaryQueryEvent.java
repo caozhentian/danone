@@ -5,7 +5,6 @@ package com.threeti.danone.common.bean;
 
 import java.util.List;
 
-import com.threeti.danone.common.model.Diary;
 
 /**
  * @author ztcao

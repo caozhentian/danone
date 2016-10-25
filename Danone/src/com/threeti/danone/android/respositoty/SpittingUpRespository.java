@@ -23,9 +23,9 @@ import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.SpittingUpDao;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.BaseModel;
+import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.SpittingUp;
 import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.model.Diary;
 
 /**
  * @author ztcao

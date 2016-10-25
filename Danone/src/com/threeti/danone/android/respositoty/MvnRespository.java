@@ -23,9 +23,9 @@ import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.MvnDao;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.BaseModel;
+import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.Mvn;
 import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.manager.net.RetrofitFactory;
 import com.threeti.danone.manager.net.StoolApiService;
 
