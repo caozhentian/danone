@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.threeti.danone.common.model;
+package com.threeti.danone.common.bean;
 
 import java.util.Date;
 

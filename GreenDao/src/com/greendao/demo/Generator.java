@@ -25,10 +25,12 @@ public class Generator {
 		addMvn(schema);
 		addFeeding(schema);
 		addCrying(schema);
+		addDm(schema);
+		addNotification(schema);
 		//AddOneToMany(schema);
 		//		AddManyToMany(schema);
 
-		String outDir = "E:\\工作\\codegithub\\danone\\Danone\\src";
+		String outDir = "E:\\danone\\Danone\\src";
 		// 调用DaoGenerator().generateAll方法自动生成代码到之前创建的java-gen目录下
 		try {
 			new DaoGenerator().generateAll(schema, outDir);
@@ -198,5 +200,33 @@ public class Generator {
 		student.addToMany(studentCourse, studentId);
 		course.addToMany(studentCourse, courseId);
 	}
+
+	//dm数据表
+		private  static void addDm(Schema schema){
+			Entity entity =schema.addEntity("Dm") ;
+			schema.enableKeepSectionsByDefault()     ;
+			entity.setTableName("dm");
+			entity.addStringProperty("appId").notNull().primaryKey();
+			entity.addDateProperty("brthdat");
+			entity.addStringProperty("diaryregId").columnName("diaryreg_id");
+			entity.addStringProperty("sex");
+		}
+	//notification数据表
+		private  static void addNotification(Schema schema){
+			Entity entity =schema.addEntity("Notification") ;
+			schema.enableKeepSectionsByDefault()     ;
+			entity.setTableName("notification");
+			entity.setSuperclass("Diary") ;
+			entity.addStringProperty("appId").notNull().primaryKey();
+			entity.addStringProperty("serverId").columnName("server_Id");
+			entity.addStringProperty("modifyReason").columnName("modify_reason");
+			entity.addStringProperty("deleteReason").columnName("delete_reason");
+			entity.addStringProperty("infantId").columnName("infant_id");
+			entity.addStringProperty("type");
+			entity.addStringProperty("mode");
+			entity.addStringProperty("interval");
+			entity.addLongProperty("time");
+			entity.addStringProperty("diaryregId").columnName("diaryreg_id");
+		}
 
 }
