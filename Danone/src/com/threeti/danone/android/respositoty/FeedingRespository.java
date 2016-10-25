@@ -21,13 +21,15 @@ import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.FeedDao;
-import com.threeti.danone.android.db.dao.StoolDao;
+import com.threeti.danone.android.db.dao.FeedDao.Properties;
 import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.Feed;
-import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
+import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.manager.net.RetrofitFactory;
 import com.threeti.danone.manager.net.StoolApiService;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * @author ztcao
@@ -109,7 +111,7 @@ public class FeedingRespository extends DiaryRespository {
 //		try {
 //			Response<BaseModel<Feed>>  response = 	call.execute();
 //			if(response.isSuccessful() && response.errorBody() == null){
-//				BaseModel<Stool> baseModel = response.body() ;
+//				BaseModel<Feed> baseModel = response.body() ;
 //				Feed feed      = baseModel.getData() ;
 //				//update diary serverId
 //				diary.setServerId(feed.getServerId()) ;
@@ -125,8 +127,20 @@ public class FeedingRespository extends DiaryRespository {
 	}
 
 	@Override
-	protected List<Diary> loacalQuery(Date date, int beforeDays) {
-		
+	protected List<? extends Diary> loacalQuery(Date date, int beforeDays) {
+		Date curDate = DateUtil.getBeforeDate(date ,beforeDays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				FeedDao feedDao = daoSession.getFeedDao() ;
+				List<Feed> feed = feedDao.queryBuilder().where(Properties.Ddat.ge(curDate.getTime())).list() ;
+				return feed ;
+		    }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
 		return Collections.emptyList() ;
 	}
 
@@ -160,16 +174,16 @@ public class FeedingRespository extends DiaryRespository {
 		
 		boolean isInsertSucess =  false;
 		
-		List<Stool> stools     = convStools(diaries) ;  
+		List<Feed> feeds     = convFeed(diaries) ;  
 	
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
 		if (daoSession != null) {
-			StoolDao stoolDao = daoSession.getStoolDao() ;
-			if (stoolDao != null) {
+			FeedDao feedDao = daoSession.getFeedDao() ;
+			if (feedDao != null) {
 				try{
-					stoolDao.insertInTx(stools) ;
+					feedDao.insertInTx(feeds) ;
 					isInsertSucess = true;
 				}catch(Exception e){
 					loger.debug(e.toString()) ;
@@ -180,36 +194,109 @@ public class FeedingRespository extends DiaryRespository {
 	}
 
 	
-	public List<Stool> convStools(List<? extends Diary> diaries){
-		List<Stool> stools     = new   ArrayList<Stool>(diaries.size()) ;  
+	public List<Feed> convFeed(List<? extends Diary> diaries){
+		List<Feed> feeds     = new   ArrayList<Feed>(diaries.size()) ;  
 		for(Diary diary : diaries){
-			stools.add((Stool)diary) ;
+			feeds.add((Feed)diary) ;
 		}
-		return stools ;
+		return feeds ;
 	}
 
 	@Override
 	protected boolean localDelete(List<? extends Diary> diaries) {
-		// TODO Auto-generated method stub
-		return false;
+		if( diaries == null || diaries.size() == 0 ){
+			return true ;
+		}
+		
+		boolean isDeleteSucess =  false;
+		
+		List<Feed> feeds     = convFeed(diaries) ;  
+	
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			FeedDao feedDao = daoSession.getFeedDao() ;
+			if (feedDao != null) {
+				try{
+					feedDao.deleteInTx(feeds) ;
+					isDeleteSucess = true;
+				}catch(Exception e){
+					loger.debug(e.toString()) ;
+				}
+			}
+		}
+		return isDeleteSucess;
 	}
 
 	@Override
 	protected boolean localUpdate(List<? extends Diary> diaries) {
-		// TODO Auto-generated method stub
-		return false;
+		if( diaries == null || diaries.size() == 0 ){
+			return true ;
+		}
+		
+		boolean isUpdateSucess =  false;
+		
+		List<Feed> feeds     = convFeed(diaries) ;  
+	
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			FeedDao feedDao = daoSession.getFeedDao() ;
+			if (feedDao != null) {
+				try{
+					feedDao.updateInTx(feeds) ;
+					isUpdateSucess = true;
+				}catch(Exception e){
+					loger.debug(e.toString()) ;
+				}
+			}
+		}
+		return isUpdateSucess;
 	}
 
 	@Override
 	protected List<? extends Diary> queryNeedDeleteDiary() {
-		// TODO Auto-generated method stub
-		return null;
+		int beforedays = 1 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				FeedDao feedDao = daoSession.getFeedDao() ;
+				QueryBuilder<Feed> queryBuilder = feedDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.lt(curDate))   ;
+				List<Feed> feeds = queryBuilder.list() ;
+				return feeds ;
+		   }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 	@Override
 	protected List<? extends Diary> getNeedSynDiary() {
-		// TODO Auto-generated method stub
-		return null;
+		int beforedays = 3 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				FeedDao feedDao = daoSession.getFeedDao() ;
+				QueryBuilder<Feed > queryBuilder = feedDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.ge(curDate.getTime()) ,
+						           (Properties.Status.notEq(Diary.OPP_NORMAL)));
+				List<Feed> feeds = queryBuilder.list() ;
+				return feeds ;
+		    }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 	@Override

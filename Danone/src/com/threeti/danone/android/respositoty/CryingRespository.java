@@ -18,6 +18,7 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.CryingDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
+import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.Crying;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
@@ -25,6 +26,8 @@ import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.model.Diary;
 import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.common.util.NumberIntersectUtil;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * @author ztcao
@@ -170,16 +173,16 @@ public class CryingRespository extends DiaryRespository {
 		
 		boolean isInsertSucess =  false;
 		
-		List<Stool> stools     = convStools(diaries) ;  
+		List<Crying> crying     = convCrying(diaries) ;  
 	
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
 		if (daoSession != null) {
-			StoolDao stoolDao = daoSession.getStoolDao() ;
-			if (stoolDao != null) {
+			CryingDao cryingDao = daoSession.getCryingDao() ;
+			if (cryingDao != null) {
 				try{
-					stoolDao.insertInTx(stools) ;
+					cryingDao.insertInTx(crying) ;
 					isInsertSucess = true;
 				}catch(Exception e){
 					loger.debug(e.toString()) ;
@@ -190,36 +193,109 @@ public class CryingRespository extends DiaryRespository {
 	}
 
 	
-	public List<Stool> convStools(List<? extends Diary> diaries){
-		List<Stool> stools     = new   ArrayList<Stool>(diaries.size()) ;  
+	public List<Crying> convCrying(List<? extends Diary> diaries){
+		List<Crying> crying     = new   ArrayList<Crying>(diaries.size()) ;  
 		for(Diary diary : diaries){
-			stools.add((Stool)diary) ;
+			crying.add((Crying)diary) ;
 		}
-		return stools ;
+		return crying ;
 	}
 
 	@Override
 	protected boolean localDelete(List<? extends Diary> diaries) {
-		// TODO Auto-generated method stub
-		return false;
+		if( diaries == null || diaries.size() == 0 ){
+			return true ;
+		}
+		
+		boolean isDeleteSucess =  false;
+		
+		List<Crying> crying     = convCrying(diaries) ;  
+	
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			CryingDao cryingDao = daoSession.getCryingDao() ;
+			if (cryingDao != null) {
+				try{
+					cryingDao.deleteInTx(crying) ;
+					isDeleteSucess = true;
+				}catch(Exception e){
+					loger.debug(e.toString()) ;
+				}
+			}
+		}
+		return isDeleteSucess;
 	}
 
 	@Override
 	protected boolean localUpdate(List<? extends Diary> diaries) {
-		// TODO Auto-generated method stub
-		return false;
+		if( diaries == null || diaries.size() == 0 ){
+			return true ;
+		}
+		
+		boolean isUpdateSucess =  false;
+		
+		List<Crying> crying     = convCrying(diaries) ;  
+	
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+			CryingDao cryingDao = daoSession.getCryingDao() ;
+			if (cryingDao != null) {
+				try{
+					cryingDao.updateInTx(crying) ;
+					isUpdateSucess = true;
+				}catch(Exception e){
+					loger.debug(e.toString()) ;
+				}
+			}
+		}
+		return isUpdateSucess;
 	}
 
 	@Override
 	protected List<? extends Diary> queryNeedDeleteDiary() {
-		// TODO Auto-generated method stub
-		return null;
+		int beforedays = 1 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				CryingDao cryingDao = daoSession.getCryingDao() ;
+				QueryBuilder<Crying> queryBuilder = cryingDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.lt(curDate))   ;
+				List<Crying> crying = queryBuilder.list() ;
+				return crying ;
+		   }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 	@Override
 	protected List<? extends Diary> getNeedSynDiary() {
-		// TODO Auto-generated method stub
-		return null;
+		int beforedays = 3 ;
+		Date curDate = DateUtil.getBeforeDate(new Date() ,beforedays) ;
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
+
+		if (daoSession != null) {
+		    try{
+				CryingDao cryingDao = daoSession.getCryingDao() ;
+				QueryBuilder<Crying > queryBuilder = cryingDao.queryBuilder() ;
+				queryBuilder.where(Properties.Ddat.ge(curDate.getTime()) ,
+						           (Properties.Status.notEq(Diary.OPP_NORMAL)));
+				List<Crying> crying = queryBuilder.list() ;
+				return crying ;
+		    }catch(Exception e){
+		    	e.printStackTrace() ;
+		    }
+		}
+		return Collections.emptyList() ;
 	}
 
 	@Override
