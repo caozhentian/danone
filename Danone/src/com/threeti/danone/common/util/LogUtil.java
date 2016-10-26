@@ -3,6 +3,8 @@
  */
 package com.threeti.danone.common.util;
 
+import com.facebook.stetho.Stetho;
+import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.common.config.Debug;
 import com.threeti.danone.common.config.FileConfig;
 
@@ -19,6 +21,7 @@ public class LogUtil {
 
 	public static void initLog(){
 		if(Debug.DEV_MODE){
+			//for log
 			NLogger.getInstance()
 	        .builder()
 	        .tag(FileConfig.DANONE)
@@ -35,12 +38,13 @@ public class LogUtil {
 	            }
 	        })
 	        .build();
+			Stetho.initializeWithDefaults(DanoneApplication.getInstance().getApplicationContext()); //for dubug
 		}
 		else{
 			NLogger.getInstance()
 	        .builder()
 	        .tag(FileConfig.DANONE)
-	        .loggerLevel(LoggerLevel.ERROR)
+	        .loggerLevel(LoggerLevel.DEBUG) //publish final version ,set ERROR
 	        .build();
 		}
 		

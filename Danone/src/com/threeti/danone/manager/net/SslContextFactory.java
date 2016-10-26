@@ -35,7 +35,7 @@ public class SslContextFactory {
 			TrustManagerFactory trustManager = TrustManagerFactory.getInstance(CLIENT_TRUST_MANAGER);            
 			//get BKS instance            
 			KeyStore tks = KeyStore.getInstance(CLIENT_TRUST_KEYSTORE);            
-			is = DanoneApplication.getInstance().getResources().openRawResource(R.raw.suplcerts);                         
+			is = DanoneApplication.getInstance().getResources().openRawResource(R.raw.danone);                         
 		    tks.load(is, CLIENT_TRUST_PASSWORD.toCharArray());                     
 			trustManager.init(tks);                        
 			sslContext.init(null, trustManager.getTrustManagers(), null);        
@@ -45,6 +45,7 @@ public class SslContextFactory {
 		finally{
 			if(is != null){
 				try {
+					//close inputstream
 					is.close();
 				} catch (IOException e) {
 					e.printStackTrace();
