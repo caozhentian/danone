@@ -100,16 +100,16 @@ public abstract class DiaryRespository {
 	
 	
 	//************************syn relate code  end 
-	public void create(Diary diary){
+	public boolean create(Diary diary){
 		diary.setStatus(Diary.OPP_ADD) ;
 		String uuid = UUID.randomUUID().toString() ;
-		diary.setAppId(uuid) ;
+		//diary.setAppId(uuid) ;
 		boolean success = loacalInsert(diary) ;
 		
 		if(success == false ){
 			//notify UI 
 			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_FAIL);
-			return ; 
+			return success; 
 		}
 		
 		
@@ -133,6 +133,7 @@ public abstract class DiaryRespository {
 //			//notify UI
 //			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)     ;
 //		}
+		return success; 
 	}
 	
 	public void modify(Diary diary){
