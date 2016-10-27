@@ -103,7 +103,7 @@ public abstract class DiaryRespository {
 	public boolean create(Diary diary){
 		diary.setStatus(Diary.OPP_ADD) ;
 		String uuid = UUID.randomUUID().toString() ;
-		//diary.setAppId(uuid) ;
+		diary.setAppId(uuid) ;
 		boolean success = loacalInsert(diary) ;
 		
 		if(success == false ){
