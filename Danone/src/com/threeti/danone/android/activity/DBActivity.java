@@ -1,8 +1,21 @@
 package com.threeti.danone.android.activity;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,9 +36,15 @@ import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.android.service.MvnService;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.android.service.StudentSerivice;
+import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
 import com.threeti.danone.common.bean.Student;
+import com.threeti.danone.manager.net.HttpsApiTest;
+import com.threeti.danone.manager.net.HttpsUtils;
+import com.threeti.danone.manager.net.RetrofitFactory;
+import com.threeti.danone.manager.net.StoolApiService;
+import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
 
 import de.greenrobot.event.EventBus;
 
@@ -47,16 +66,88 @@ public class DBActivity extends BaseActivity {
 		initData();
 		initView();
 		EventBus.getDefault().register(this) ;
-		NLogger.d("nlogger teest") ;
+		NLogger.i("nlogger teest") ;
 	}
 
 	@Override
 	void initData() {
-		// TODO Auto-generated method stub
 		list_students = new ArrayList<Stool>();
-		NLogger.e("nlogger teest") ;
+		NLogger.e("nlogger teest2") ;
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					//test() ;
+					testDeamon() ;
+				} catch (IOException e) {
+					NLogger.e( "adc" ,e);
+				}
+			}
+		}).start() ;
+		
 	}
 
+	private void test() throws IOException{
+		//test 12306
+		InputStream bksFileIo = DanoneApplication.getInstance().getResources().openRawResource(R.raw.danone);
+		//SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, bksFileIo, "pw12306") ;
+		SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, bksFileIo, "pw12306") ;
+		OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+		                                        .sslSocketFactory(sslParams.sSLSocketFactory ,
+		                                        		          sslParams.trustManager   );
+		OkHttpClient client = okHttpClient.build() ;
+		Request request = new Request.Builder()
+        .url("https://kyfw.12306.cn/")
+        .build();
+		Response response = client.newCall(request).execute();
+		if (!response.isSuccessful())
+		    throw new IOException("Unexpected code " + response);
+		Headers responseHeaders = response.headers();
+		for (int i = 0; i < responseHeaders.size(); i++) {
+		    NLogger.e( (responseHeaders.name(i) + ": " + responseHeaders.value(i)));
+		}
+		NLogger.e(response.body().string());
+	}
+	
+	private void testDeamon() throws IOException{
+		System.setProperty ("jsse.enableSNIExtension", "false");
+		//test 12306
+		InputStream keyFileIo    = DanoneApplication.getInstance().getResources().openRawResource(R.raw.tomcat);
+		InputStream[] keyFileIos = new InputStream[1] ;
+		keyFileIos[0]            = keyFileIo ;
+		InputStream bksFileIo = DanoneApplication.getInstance().getResources().openRawResource(R.raw.key);
+		SSLParams sslParams = HttpsUtils.getSslSocketFactory(keyFileIos, bksFileIo, "123456") ;
+		//SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null) ; //single auth
+		
+		//SSLParams sslParams = HttpsUtils.getSslSocketFactory(keyFileIos, null, null) ; //single auth
+//		OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+//		                                        .sslSocketFactory(sslParams.sSLSocketFactory ,
+//		                                        		          sslParams.trustManager   );
+		OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+        .sslSocketFactory(sslParams.sSLSocketFactory   , sslParams.trustManager);
+		okHttpClient.hostnameVerifier(new HostnameVerifier() {
+	        @Override
+	        public boolean verify(String hostname, SSLSession session) {
+	            return true;
+	        }
+	    });
+		OkHttpClient client = okHttpClient.build() ;
+		
+		Request request = new Request.Builder()
+        .url("https://192.168.29.106:8443/")
+        .build();
+		Response response = client.newCall(request).execute();
+		if (!response.isSuccessful())
+		    throw new IOException("Unexpected code " + response);
+		Headers responseHeaders = response.headers();
+		for (int i = 0; i < responseHeaders.size(); i++) {
+		    NLogger.e( (responseHeaders.name(i) + ": " + responseHeaders.value(i)));
+		}
+		NLogger.e(response.body().string());
+	}
+	
 	@Override
 	void initView() {
 		// TODO Auto-generated method stub
@@ -75,8 +166,7 @@ public class DBActivity extends BaseActivity {
 		StoolService stoolService = new StoolService() ;
 		Stool stool = new Stool() ;
 		stool.setDdat(new Date()) ;
-		stool.setStoolyn("Y") ;
-		stool.setType(1)      ;
+		stool.setStoolyn("Y") ;      
 		stoolService.save(stool) ;
 
 	}

@@ -21,7 +21,7 @@ import com.threeti.danone.android.application.DanoneApplication;
  */
 public class SslContextFactory {    
 	
-	private static final String CLIENT_TRUST_PASSWORD = "changeit";//(信任证书密码，该证书默认密码是changeit)    
+	private static final String CLIENT_TRUST_PASSWORD = "123456";//(信任证书密码，该证书默认密码是changeit)    
 	private static final String CLIENT_AGREEMENT = "TLS";//(使用协议  )  
 	private static final String CLIENT_TRUST_MANAGER = "X509";   
 	private static final String CLIENT_TRUST_KEYSTORE = "BKS";    

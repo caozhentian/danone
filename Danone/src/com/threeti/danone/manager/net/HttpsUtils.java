@@ -16,10 +16,11 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+
+import cn.jesse.nativelogger.NLogger;
 
 /**
  * Created by ztcao
@@ -28,7 +29,7 @@ public class HttpsUtils
 {
     public static class SSLParams
     {
-        public SSLSocketFactory sSLSocketFactory;
+        public NoSSLv3SocketFactory sSLSocketFactory;
         public X509TrustManager trustManager;
     }
 
@@ -40,16 +41,17 @@ public class HttpsUtils
             TrustManager[] trustManagers = prepareTrustManager(certificates);
             KeyManager[] keyManagers = prepareKeyManager(bksFile, password);
             SSLContext sslContext = SSLContext.getInstance("TLS");
+            //SSLContext sslContext = SSLContext.getInstance("SSL");
             X509TrustManager trustManager = null;
             if (trustManagers != null)
             {
-                trustManager = new MyTrustManager(chooseTrustManager(trustManagers));
+                trustManager = new DanoneTrustManager(chooseTrustManager(trustManagers));
             } else
             {
                 trustManager = new UnSafeTrustManager();
             }
             sslContext.init(keyManagers, new TrustManager[]{trustManager},null);
-            sslParams.sSLSocketFactory = sslContext.getSocketFactory();
+            sslParams.sSLSocketFactory = new NoSSLv3SocketFactory(sslContext.getSocketFactory());
             sslParams.trustManager = trustManager;
             return sslParams;
         } catch (NoSuchAlgorithmException e)
@@ -102,7 +104,7 @@ public class HttpsUtils
 
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            keyStore.load(null);
+            keyStore.load(null,null);
             int index = 0;
             for (InputStream certificate : certificates)
             {
@@ -115,6 +117,7 @@ public class HttpsUtils
                 } catch (IOException e)
 
                 {
+                	NLogger.e("httpsUtils", e) ;
                 }
             }
             TrustManagerFactory trustManagerFactory = null;
@@ -190,12 +193,12 @@ public class HttpsUtils
     }
 
 
-    private static class MyTrustManager implements X509TrustManager
+    private static class DanoneTrustManager implements X509TrustManager
     {
         private X509TrustManager defaultTrustManager;
         private X509TrustManager localTrustManager;
 
-        public MyTrustManager(X509TrustManager localTrustManager) throws NoSuchAlgorithmException, KeyStoreException
+        public DanoneTrustManager(X509TrustManager localTrustManager) throws NoSuchAlgorithmException, KeyStoreException
         {
             TrustManagerFactory var4 = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             var4.init((KeyStore) null);
@@ -220,13 +223,17 @@ public class HttpsUtils
             {
                 localTrustManager.checkServerTrusted(chain, authType);
             }
+        	//for java.security.cert.CertPathValidatorException: Trust anchor for certification path not found
         }
 
 
         @Override
         public X509Certificate[] getAcceptedIssuers()
         {
+            //return new X509Certificate[0];
+            //for java.security.cert.CertPathValidatorException: Trust anchor for certification path not found
             return new X509Certificate[0];
+        	//return null ;
         }
     }
 }
