@@ -334,32 +334,37 @@ public class CryingRespository extends DiaryRespository {
 		}
 		
 		if (daoSession != null) {
-			cryinglDao.getSession().runInTx(new Runnable() {  
-		            @Override  
-		            public void run()  { 
-		            	try{
-			            	if(deleteCryinges.size() != 0){
-			            		for(Crying deleteCry :deleteCryinges){
-			            			 cryinglDao.delete(deleteCry) ;
-			            		}
+			try{
+				cryinglDao.getSession().runInTx(new Runnable() {  
+			            @Override  
+			            public void run()  { 
+			            	try{
+				            	if(deleteCryinges.size() != 0){
+				            		for(Crying deleteCry :deleteCryinges){
+				            			 cryinglDao.delete(deleteCry) ;
+				            		}
+				            	}
+				            	if(deleteLogicCryinges.size() != 0){
+				            		for(Crying deleteLogicCry : deleteLogicCryinges){
+				            			cryinglDao.update(deleteLogicCry) ;
+				            		}
+				            	}
+				            	//override crying 接口 
+				            	boolean success = create(crying) ;
+				            	if(!success){
+				            		throw new RuntimeException("tx failed") ;
+				            	}
+			            	}catch(Exception e){
+			            		e.printStackTrace() ;
+			            		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)    ;
+			            		throw new RuntimeException(e) ;
 			            	}
-			            	if(deleteLogicCryinges.size() != 0){
-			            		for(Crying deleteLogicCry : deleteLogicCryinges){
-			            			cryinglDao.update(deleteLogicCry) ;
-			            		}
-			            	}
-			            	//override crying 接口 
-			            	boolean success = create(crying) ;
-			            	if(!success){
-			            		throw new RuntimeException("tx failed") ;
-			            	}
-		            	}catch(Exception e){
-		            		e.printStackTrace() ;
-		            		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)    ;
-		            		throw new RuntimeException(e) ;
-		            	}
-		            }  
-		    });
+			            }  
+			    });
+			}
+			catch(Exception e){
+				NLogger.e(TAG, e) ;
+			}
 	    }
 		
 	}

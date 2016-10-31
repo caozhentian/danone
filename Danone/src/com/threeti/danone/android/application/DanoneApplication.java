@@ -2,8 +2,11 @@ package com.threeti.danone.android.application;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+import com.threeti.danone.common.config.Debug;
 import com.threeti.danone.common.config.FileConfig;
 import com.threeti.danone.common.util.LogUtil;
+import com.threeti.danone.common.util.PasswordUtil;
 
 public class DanoneApplication extends Application {
 
@@ -12,9 +15,14 @@ public class DanoneApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		if(Debug.DEV_MODE){
+			Stetho.initializeWithDefaults(this); //for dubug
+		}
 		danoneApplication = this ;
 		FileConfig.initFileConfig() ;
 		LogUtil.initLog() ;
+		PasswordUtil.init() ;
+		
 	}
 	
 	

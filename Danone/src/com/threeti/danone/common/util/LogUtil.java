@@ -38,7 +38,7 @@ public class LogUtil {
 	            }
 	        })
 	        .build();
-			Stetho.initializeWithDefaults(DanoneApplication.getInstance().getApplicationContext()); //for dubug
+			
 		}
 		else{
 			NLogger.getInstance()

@@ -221,7 +221,12 @@ public class HttpsUtils
                 defaultTrustManager.checkServerTrusted(chain, authType);
             } catch (CertificateException ce)
             {
-                localTrustManager.checkServerTrusted(chain, authType);
+            	try{
+            		localTrustManager.checkServerTrusted(chain, authType);
+            	}
+            	catch(Exception e){
+            		NLogger.e("HttpsUtils" ,e) ;
+            	}
             }
         	//for java.security.cert.CertPathValidatorException: Trust anchor for certification path not found
         }
