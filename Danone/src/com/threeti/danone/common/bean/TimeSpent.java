@@ -12,6 +12,7 @@ public class TimeSpent   extends Diary{
     private String diaryRegId;
     //1: app,2: feeding,3: stool,4: crying
     private String type;
+    // second unit(以秒为单位 )
     private Integer time;
 
     // KEEP FIELDS - put your custom fields here

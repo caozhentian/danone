@@ -13,6 +13,7 @@ import com.threeti.danone.R;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.common.config.Debug;
 import com.threeti.danone.common.config.IpConfig;
+import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
 
 /**
@@ -20,11 +21,11 @@ import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
  *
  */
 public class RetrofitFactory {
-
+    
 	public static Retrofit getBaseRetrofit() {
 		OkHttpClient client = getOkHttpClient() ;
 		Gson gson = new GsonBuilder()
-        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+        .setDateFormat(DateUtil.YYYY_MM_DD_FORMAT)
         .create();//define datefamat
 		
 		Retrofit retrofit = new Retrofit.Builder().baseUrl(IpConfig.BASIC_URL)
@@ -50,7 +51,7 @@ public class RetrofitFactory {
 		                                        		          sslParams.trustManager   );
 		
 		Gson gson = new GsonBuilder()
-        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+        .setDateFormat(DateUtil.YYYY_MM_DD_FORMAT)
         .create();//define datefamat
 		
 		Retrofit retrofit = new Retrofit.Builder().baseUrl(IpConfig.BASIC_URL)
