@@ -9,22 +9,23 @@ import com.threeti.danone.common.util.TwoMin;
 /**
  * Entity mapped to table "Crying".
  */
-public class Crying extends Diary implements TwoMin {
-	
+public class Crying  extends Diary implements TwoMin{
+
+	//1: fussing, 2: crying
     private String crytype;
+    //morning,afternoon,evening,night
     private String timeOfDay;
+    //N:no inconsolable,Y:Yes inconsolable
     private String cryinyn;
+    //min unit(以分为单位 9：30 = 9* 60 + 30)
     private long crysttim;
+    //min unit(以分为单位 9：30 = 9* 60 + 30)
     private long cryentim;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
     public Crying() {
-    }
-
-    public Crying(String appId) {
-        this.appId = appId;
     }
 
     public Crying(String appId, String serverId, String modifyReason, String deleteReason, String infantId, java.util.Date ddat, Integer status, String crytype, String timeOfDay, String cryinyn, long crysttim, long cryentim) {
@@ -41,7 +42,6 @@ public class Crying extends Diary implements TwoMin {
         this.crysttim = crysttim;
         this.cryentim = cryentim;
     }
-
 
     public String getCrytype() {
         return crytype;
@@ -83,6 +83,7 @@ public class Crying extends Diary implements TwoMin {
         this.cryentim = cryentim;
     }
 
+    // KEEP METHODS - put your custom methods here
     @Override
 	public boolean isJudgeIntersect(TwoMin otherTwoMin) {
 		if( getMax() <= otherTwoMin.getMin()){
@@ -103,8 +104,6 @@ public class Crying extends Diary implements TwoMin {
 	public long getMin() {
 		return crysttim;
 	}
-
-    // KEEP METHODS - put your custom methods here
     // KEEP METHODS END
 
 }

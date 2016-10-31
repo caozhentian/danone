@@ -52,7 +52,7 @@ public class StoolDao extends AbstractDao<Stool, String> {
                 "\"server_Id\" TEXT," + // 1: serverId
                 "\"modify_reason\" TEXT," + // 2: modifyReason
                 "\"delete_reason\" TEXT," + // 3: deleteReason
-                "\"infant_id\" TEXT," + // 4: infantId
+                "\"infant_id\" TEXT NOT NULL ," + // 4: infantId
                 "\"DDAT\" INTEGER NOT NULL ," + // 5: ddat
                 "\"STATUS\" INTEGER," + // 6: status
                 "\"STOOLYN\" TEXT," + // 7: stoolyn
@@ -86,11 +86,7 @@ public class StoolDao extends AbstractDao<Stool, String> {
         if (deleteReason != null) {
             stmt.bindString(4, deleteReason);
         }
- 
-        String infantId = entity.getInfantId();
-        if (infantId != null) {
-            stmt.bindString(5, infantId);
-        }
+        stmt.bindString(5, entity.getInfantId());
         stmt.bindLong(6, entity.getDdat().getTime());
  
         Integer status = entity.getStatus();
@@ -128,7 +124,7 @@ public class StoolDao extends AbstractDao<Stool, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // serverId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // modifyReason
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // deleteReason
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // infantId
+            cursor.getString(offset + 4), // infantId
             new java.util.Date(cursor.getLong(offset + 5)), // ddat
             cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // status
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // stoolyn
@@ -145,7 +141,7 @@ public class StoolDao extends AbstractDao<Stool, String> {
         entity.setServerId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setModifyReason(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDeleteReason(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setInfantId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setInfantId(cursor.getString(offset + 4));
         entity.setDdat(new java.util.Date(cursor.getLong(offset + 5)));
         entity.setStatus(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
         entity.setStoolyn(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));

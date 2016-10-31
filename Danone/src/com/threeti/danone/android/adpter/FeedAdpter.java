@@ -31,8 +31,8 @@ public class FeedAdpter extends CommonAdapter<Feed> {
 
 		if (item != null) {
 			studen_id_textView.setText(item.getAppId() + "");
-			studen_name_textView.setText(item.getBreastNumber()+"");
-			studen_score_textView.setText(item.getBeverNumber() + "");
+			studen_name_textView.setText(item.getFeedLeft()+"");
+			studen_score_textView.setText(item.getFeedPrep() + "");
 			studen_age_textView.setText(item.getDdat() + "");
 		}
 

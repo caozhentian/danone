@@ -13,37 +13,25 @@ import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import retrofit2.Call;
-import retrofit2.Retrofit;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import cn.jesse.nativelogger.NLogger;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.threeti.danone.R;
-import com.threeti.danone.android.adpter.MvnAdpter;
 import com.threeti.danone.android.adpter.StudentAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
-import com.threeti.danone.android.db.dao.MvnDao;
 import com.threeti.danone.android.db.dao.StoolDao;
-import com.threeti.danone.android.service.MvnService;
 import com.threeti.danone.android.service.StoolService;
-import com.threeti.danone.android.service.StudentSerivice;
-import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.bean.Student;
-import com.threeti.danone.manager.net.HttpsApiTest;
+import com.threeti.danone.jni.DanoneJni;
 import com.threeti.danone.manager.net.HttpsUtils;
-import com.threeti.danone.manager.net.RetrofitFactory;
-import com.threeti.danone.manager.net.StoolApiService;
 import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
 
 import de.greenrobot.event.EventBus;
@@ -52,7 +40,6 @@ public class DBActivity extends BaseActivity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
-	private StudentSerivice studentSerivice;
 
 	private StudentAdpter studentAdpter;
 
@@ -79,22 +66,29 @@ public class DBActivity extends BaseActivity {
 			@Override
 			public void run() {
 				try {
-					//test() ;
-					testDeamon() ;
+					test() ;
+					//testDeamon() ;
 				} catch (IOException e) {
 					NLogger.e( "adc" ,e);
 				}
 			}
 		}).start() ;
 		
+		 String s = DanoneJni.dbPasswordFromJNI() + ":" +  DanoneJni.keyPasswordFromJNI() ;
+		 
+		 NLogger.e("nlogger s ") ;
+		
 	}
 
 	private void test() throws IOException{
 		//test 12306
-		InputStream bksFileIo = DanoneApplication.getInstance().getResources().openRawResource(R.raw.danone);
+		//InputStream bksFileIo = DanoneApplication.getInstance().getResources().openRawResource(R.raw.danone);
+		InputStream bksFileIo = DanoneApplication.getInstance().getResources().openRawResource(R.raw.srca);
+		InputStream bksFileIos[] = {bksFileIo} ;
+		SSLParams sslParams = HttpsUtils.getSslSocketFactory(bksFileIos, null, null) ;
 		//SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, bksFileIo, "pw12306") ;
-		SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, bksFileIo, "pw12306") ;
 		OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder()
+		                                        .addNetworkInterceptor(new StethoInterceptor())
 		                                        .sslSocketFactory(sslParams.sSLSocketFactory ,
 		                                        		          sslParams.trustManager   );
 		OkHttpClient client = okHttpClient.build() ;
@@ -190,10 +184,7 @@ public class DBActivity extends BaseActivity {
 
 	}
 	public void serachEvent(View view) { 
-		if (studentSerivice == null) {
-			studentSerivice = new StudentSerivice();
-		}
-
+		
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
@@ -210,9 +201,7 @@ public class DBActivity extends BaseActivity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		if (studentSerivice != null) {
-			studentSerivice.close();
-		}
+		
 		EventBus.getDefault().unregister(this) ;
 	}
 
