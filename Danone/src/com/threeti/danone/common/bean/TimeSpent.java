@@ -7,18 +7,10 @@ package com.threeti.danone.common.bean;
 /**
  * Entity mapped to table "timespent".
  */
-public class TimeSpent extends Diary  {
+public class TimeSpent   extends Diary{
 
-    /** Not-null value. */
-    private String appId;
-    private String serverId;
-    private String modifyReason;
-    private String deleteReason;
-    /** Not-null value. */
-    private String infantId;
-    private Integer status;
-    /** Not-null value. */
-    private java.util.Date ddat;
+    private String diaryRegId;
+    //1: app,2: feeding,3: stool,4: crying
     private String type;
     private Integer time;
 
@@ -28,82 +20,27 @@ public class TimeSpent extends Diary  {
     public TimeSpent() {
     }
 
-    public TimeSpent(String appId) {
-        this.appId = appId;
-    }
-
-    public TimeSpent(String appId, String serverId, String modifyReason, String deleteReason, String infantId, Integer status, java.util.Date ddat, String type, Integer time) {
+   
+    public TimeSpent(String appId, String serverId, String modifyReason, String deleteReason, String infantId, String diaryRegId, Integer status, java.util.Date ddat, String type, Integer time) {
         this.appId = appId;
         this.serverId = serverId;
         this.modifyReason = modifyReason;
         this.deleteReason = deleteReason;
         this.infantId = infantId;
+        this.diaryRegId = diaryRegId;
         this.status = status;
         this.ddat = ddat;
         this.type = type;
         this.time = time;
     }
 
-    /** Not-null value. */
-    public String getAppId() {
-        return appId;
+
+    public String getDiaryRegId() {
+        return diaryRegId;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getServerId() {
-        return serverId;
-    }
-
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
-    }
-
-    public String getModifyReason() {
-        return modifyReason;
-    }
-
-    public void setModifyReason(String modifyReason) {
-        this.modifyReason = modifyReason;
-    }
-
-    public String getDeleteReason() {
-        return deleteReason;
-    }
-
-    public void setDeleteReason(String deleteReason) {
-        this.deleteReason = deleteReason;
-    }
-
-    /** Not-null value. */
-    public String getInfantId() {
-        return infantId;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setInfantId(String infantId) {
-        this.infantId = infantId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /** Not-null value. */
-    public java.util.Date getDdat() {
-        return ddat;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setDdat(java.util.Date ddat) {
-        this.ddat = ddat;
+    public void setDiaryRegId(String diaryRegId) {
+        this.diaryRegId = diaryRegId;
     }
 
     public String getType() {

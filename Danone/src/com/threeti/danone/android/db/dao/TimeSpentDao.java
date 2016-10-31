@@ -28,10 +28,11 @@ public class TimeSpentDao extends AbstractDao<TimeSpent, String> {
         public final static Property ModifyReason = new Property(2, String.class, "modifyReason", false, "modify_reason");
         public final static Property DeleteReason = new Property(3, String.class, "deleteReason", false, "delete_reason");
         public final static Property InfantId = new Property(4, String.class, "infantId", false, "infant_id");
-        public final static Property Status = new Property(5, Integer.class, "status", false, "STATUS");
-        public final static Property Ddat = new Property(6, java.util.Date.class, "ddat", false, "DDAT");
-        public final static Property Type = new Property(7, String.class, "type", false, "TYPE");
-        public final static Property Time = new Property(8, Integer.class, "time", false, "TIME");
+        public final static Property DiaryRegId = new Property(5, String.class, "diaryRegId", false, "diary_reg_id");
+        public final static Property Status = new Property(6, Integer.class, "status", false, "STATUS");
+        public final static Property Ddat = new Property(7, java.util.Date.class, "ddat", false, "DDAT");
+        public final static Property Type = new Property(8, String.class, "type", false, "TYPE");
+        public final static Property Time = new Property(9, Integer.class, "time", false, "TIME");
     };
 
 
@@ -51,11 +52,12 @@ public class TimeSpentDao extends AbstractDao<TimeSpent, String> {
                 "\"server_Id\" TEXT," + // 1: serverId
                 "\"modify_reason\" TEXT," + // 2: modifyReason
                 "\"delete_reason\" TEXT," + // 3: deleteReason
-                "\"infant_id\" TEXT NOT NULL ," + // 4: infantId
-                "\"STATUS\" INTEGER," + // 5: status
-                "\"DDAT\" INTEGER NOT NULL ," + // 6: ddat
-                "\"TYPE\" TEXT," + // 7: type
-                "\"TIME\" INTEGER);"); // 8: time
+                "\"infant_id\" TEXT," + // 4: infantId
+                "\"diary_reg_id\" TEXT," + // 5: diaryRegId
+                "\"STATUS\" INTEGER," + // 6: status
+                "\"DDAT\" INTEGER NOT NULL ," + // 7: ddat
+                "\"TYPE\" TEXT," + // 8: type
+                "\"TIME\" INTEGER);"); // 9: time
     }
 
     /** Drops the underlying database table. */
@@ -84,22 +86,31 @@ public class TimeSpentDao extends AbstractDao<TimeSpent, String> {
         if (deleteReason != null) {
             stmt.bindString(4, deleteReason);
         }
-        stmt.bindString(5, entity.getInfantId());
+ 
+        String infantId = entity.getInfantId();
+        if (infantId != null) {
+            stmt.bindString(5, infantId);
+        }
+ 
+        String diaryRegId = entity.getDiaryRegId();
+        if (diaryRegId != null) {
+            stmt.bindString(6, diaryRegId);
+        }
  
         Integer status = entity.getStatus();
         if (status != null) {
-            stmt.bindLong(6, status);
+            stmt.bindLong(7, status);
         }
-        stmt.bindLong(7, entity.getDdat().getTime());
+        stmt.bindLong(8, entity.getDdat().getTime());
  
         String type = entity.getType();
         if (type != null) {
-            stmt.bindString(8, type);
+            stmt.bindString(9, type);
         }
  
         Integer time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(9, time);
+            stmt.bindLong(10, time);
         }
     }
 
@@ -117,11 +128,12 @@ public class TimeSpentDao extends AbstractDao<TimeSpent, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // serverId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // modifyReason
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // deleteReason
-            cursor.getString(offset + 4), // infantId
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // status
-            new java.util.Date(cursor.getLong(offset + 6)), // ddat
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // type
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // time
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // infantId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // diaryRegId
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // status
+            new java.util.Date(cursor.getLong(offset + 7)), // ddat
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // type
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9) // time
         );
         return entity;
     }
@@ -133,11 +145,12 @@ public class TimeSpentDao extends AbstractDao<TimeSpent, String> {
         entity.setServerId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setModifyReason(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDeleteReason(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setInfantId(cursor.getString(offset + 4));
-        entity.setStatus(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
-        entity.setDdat(new java.util.Date(cursor.getLong(offset + 6)));
-        entity.setType(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setTime(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setInfantId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDiaryRegId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setStatus(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setDdat(new java.util.Date(cursor.getLong(offset + 7)));
+        entity.setType(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setTime(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
      }
     
     /** @inheritdoc */
