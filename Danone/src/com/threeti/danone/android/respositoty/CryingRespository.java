@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-
 import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
@@ -17,12 +16,9 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.CryingDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
-import com.threeti.danone.android.db.dao.CryingDao;
-import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.common.bean.Crying;
 import com.threeti.danone.common.bean.Diary;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
-import com.threeti.danone.common.bean.Stool;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 import com.threeti.danone.common.util.DateUtil;
 import com.threeti.danone.common.util.NumberIntersectUtil;
 
@@ -314,7 +310,7 @@ public class CryingRespository extends DiaryRespository {
 		return override ;
 	}
 	
-	public void override(final Crying crying){
+	public void override(final Crying crying) {
 
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
 		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
@@ -338,26 +334,37 @@ public class CryingRespository extends DiaryRespository {
 		}
 		
 		if (daoSession != null) {
-			cryinglDao.getSession().runInTx(new Runnable() {  
-		            @Override  
-		            public void run() { 
-		            	try{
-			            	if(deleteCryinges.size() != 0){
-			            		cryinglDao.deleteInTx(deleteCryinges) ;
+			try{
+				cryinglDao.getSession().runInTx(new Runnable() {  
+			            @Override  
+			            public void run()  { 
+			            	try{
+				            	if(deleteCryinges.size() != 0){
+				            		for(Crying deleteCry :deleteCryinges){
+				            			 cryinglDao.delete(deleteCry) ;
+				            		}
+				            	}
+				            	if(deleteLogicCryinges.size() != 0){
+				            		for(Crying deleteLogicCry : deleteLogicCryinges){
+				            			cryinglDao.update(deleteLogicCry) ;
+				            		}
+				            	}
+				            	//override crying 接口 
+				            	boolean success = create(crying) ;
+				            	if(!success){
+				            		throw new RuntimeException("tx failed") ;
+				            	}
+			            	}catch(Exception e){
+			            		e.printStackTrace() ;
+			            		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)    ;
+			            		throw new RuntimeException(e) ;
 			            	}
-			            	if(deleteLogicCryinges.size() != 0){
-			            		cryinglDao.updateInTx(deleteLogicCryinges) ;
-			            	}
-			            	//override crying 接口 
-			            	
-			            	create(crying) ;
-		            	}catch(Exception e){
-		            		e.printStackTrace() ;
-		            		postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)    ;
-		            		return ;
-		            	}
-		            }  
-		    });
+			            }  
+			    });
+			}
+			catch(Exception e){
+				NLogger.e(TAG, e) ;
+			}
 	    }
 		
 	}

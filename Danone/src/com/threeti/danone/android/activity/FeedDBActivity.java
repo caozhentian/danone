@@ -11,24 +11,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
-import com.threeti.danone.android.adpter.CryingAdpter;
 import com.threeti.danone.android.adpter.FeedAdpter;
-import com.threeti.danone.android.adpter.StudentAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
-import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.FeedDao;
-import com.threeti.danone.android.db.dao.StoolDao;
-import com.threeti.danone.android.service.CryingService;
 import com.threeti.danone.android.service.FeedingService;
-import com.threeti.danone.android.service.StoolService;
-import com.threeti.danone.android.service.StudentSerivice;
-import com.threeti.danone.common.bean.Crying;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Feed;
-import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.bean.Student;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -36,7 +26,6 @@ public class FeedDBActivity extends BaseActivity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
-	private StudentSerivice studentSerivice;
 
 	private FeedAdpter feedAdpter;
 
@@ -80,9 +69,9 @@ public class FeedDBActivity extends BaseActivity {
 		feed.setDdat(new Date()) ;
 		feed.setDeleteReason(age_editText.getText().toString())      ;
 		if(fancy_editText.getText().toString().isEmpty()){
-			feed.setBeverNumber(0);
+			feed.setFeedLeft(1) ;
 		}else{
-			feed.setBeverNumber(Integer.valueOf(fancy_editText.getText().toString()));
+			feed.setFeedcon(3) ;
 		}
 		cryingService.save(feed) ;
 		
@@ -122,9 +111,7 @@ public class FeedDBActivity extends BaseActivity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		if (studentSerivice != null) {
-			studentSerivice.close();
-		}
+		
 		EventBus.getDefault().unregister(this) ;
 	}
 	

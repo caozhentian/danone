@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class DateUtil {
 
-	public static final String YYYY_MM_DD_FORMAT = "yyyy-MM-dd" ;
+	public static final String YYYY_MM_DD_FORMAT = "yyyy/MM/dd" ;
 	
 	public static Date getBeforeDate(int beforeDays){
 		return getBeforeDate(new Date() , beforeDays) ;

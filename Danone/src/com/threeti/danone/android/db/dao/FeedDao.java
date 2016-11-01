@@ -30,11 +30,11 @@ public class FeedDao extends AbstractDao<Feed, String> {
         public final static Property InfantId = new Property(4, String.class, "infantId", false, "infant_id");
         public final static Property Status = new Property(5, Integer.class, "status", false, "STATUS");
         public final static Property Ddat = new Property(6, java.util.Date.class, "ddat", false, "DDAT");
-        public final static Property StudyNumber = new Property(7, Integer.class, "studyNumber", false, "study_number");
-        public final static Property FormulaNumber = new Property(8, Integer.class, "formulaNumber", false, "formula_number");
-        public final static Property BeverNumber = new Property(9, Integer.class, "beverNumber", false, "bever_number");
-        public final static Property CompNumber = new Property(10, Integer.class, "compNumber", false, "comp_number");
-        public final static Property BreastNumber = new Property(11, Integer.class, "breastNumber", false, "breast_number");
+        public final static Property TimeOfDay = new Property(7, String.class, "timeOfDay", false, "time_of_day");
+        public final static Property FeedScoop = new Property(8, Integer.class, "feedScoop", false, "feed_scoop");
+        public final static Property FeedPrep = new Property(9, Integer.class, "feedPrep", false, "feed_prep");
+        public final static Property FeedLeft = new Property(10, Integer.class, "feedLeft", false, "feed_left");
+        public final static Property Feedcon = new Property(11, Integer.class, "feedcon", false, "feed_Con");
     };
 
 
@@ -54,14 +54,14 @@ public class FeedDao extends AbstractDao<Feed, String> {
                 "\"server_Id\" TEXT," + // 1: serverId
                 "\"modify_reason\" TEXT," + // 2: modifyReason
                 "\"delete_reason\" TEXT," + // 3: deleteReason
-                "\"infant_id\" TEXT," + // 4: infantId
+                "\"infant_id\" TEXT NOT NULL ," + // 4: infantId
                 "\"STATUS\" INTEGER," + // 5: status
                 "\"DDAT\" INTEGER NOT NULL ," + // 6: ddat
-                "\"study_number\" INTEGER," + // 7: studyNumber
-                "\"formula_number\" INTEGER," + // 8: formulaNumber
-                "\"bever_number\" INTEGER," + // 9: beverNumber
-                "\"comp_number\" INTEGER," + // 10: compNumber
-                "\"breast_number\" INTEGER);"); // 11: breastNumber
+                "\"time_of_day\" TEXT," + // 7: timeOfDay
+                "\"feed_scoop\" INTEGER," + // 8: feedScoop
+                "\"feed_prep\" INTEGER," + // 9: feedPrep
+                "\"feed_left\" INTEGER," + // 10: feedLeft
+                "\"feed_Con\" INTEGER);"); // 11: feedcon
     }
 
     /** Drops the underlying database table. */
@@ -90,11 +90,7 @@ public class FeedDao extends AbstractDao<Feed, String> {
         if (deleteReason != null) {
             stmt.bindString(4, deleteReason);
         }
- 
-        String infantId = entity.getInfantId();
-        if (infantId != null) {
-            stmt.bindString(5, infantId);
-        }
+        stmt.bindString(5, entity.getInfantId());
  
         Integer status = entity.getStatus();
         if (status != null) {
@@ -102,29 +98,29 @@ public class FeedDao extends AbstractDao<Feed, String> {
         }
         stmt.bindLong(7, entity.getDdat().getTime());
  
-        Integer studyNumber = entity.getStudyNumber();
-        if (studyNumber != null) {
-            stmt.bindLong(8, studyNumber);
+        String timeOfDay = entity.getTimeOfDay();
+        if (timeOfDay != null) {
+            stmt.bindString(8, timeOfDay);
         }
  
-        Integer formulaNumber = entity.getFormulaNumber();
-        if (formulaNumber != null) {
-            stmt.bindLong(9, formulaNumber);
+        Integer feedScoop = entity.getFeedScoop();
+        if (feedScoop != null) {
+            stmt.bindLong(9, feedScoop);
         }
  
-        Integer beverNumber = entity.getBeverNumber();
-        if (beverNumber != null) {
-            stmt.bindLong(10, beverNumber);
+        Integer feedPrep = entity.getFeedPrep();
+        if (feedPrep != null) {
+            stmt.bindLong(10, feedPrep);
         }
  
-        Integer compNumber = entity.getCompNumber();
-        if (compNumber != null) {
-            stmt.bindLong(11, compNumber);
+        Integer feedLeft = entity.getFeedLeft();
+        if (feedLeft != null) {
+            stmt.bindLong(11, feedLeft);
         }
  
-        Integer breastNumber = entity.getBreastNumber();
-        if (breastNumber != null) {
-            stmt.bindLong(12, breastNumber);
+        Integer feedcon = entity.getFeedcon();
+        if (feedcon != null) {
+            stmt.bindLong(12, feedcon);
         }
     }
 
@@ -142,14 +138,14 @@ public class FeedDao extends AbstractDao<Feed, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // serverId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // modifyReason
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // deleteReason
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // infantId
+            cursor.getString(offset + 4), // infantId
             cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // status
             new java.util.Date(cursor.getLong(offset + 6)), // ddat
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // studyNumber
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // formulaNumber
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // beverNumber
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // compNumber
-            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11) // breastNumber
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // timeOfDay
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // feedScoop
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // feedPrep
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // feedLeft
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11) // feedcon
         );
         return entity;
     }
@@ -161,14 +157,14 @@ public class FeedDao extends AbstractDao<Feed, String> {
         entity.setServerId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setModifyReason(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDeleteReason(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setInfantId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setInfantId(cursor.getString(offset + 4));
         entity.setStatus(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
         entity.setDdat(new java.util.Date(cursor.getLong(offset + 6)));
-        entity.setStudyNumber(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setFormulaNumber(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setBeverNumber(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setCompNumber(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
-        entity.setBreastNumber(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setTimeOfDay(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setFeedScoop(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setFeedPrep(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
+        entity.setFeedLeft(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setFeedcon(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
      }
     
     /** @inheritdoc */

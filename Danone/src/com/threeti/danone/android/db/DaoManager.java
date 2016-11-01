@@ -23,7 +23,6 @@ public class DaoManager {
 	private static DaoMaster.EncryptedDevOpenHelper mHelper;
 	private static DaoMaster mDaoMaster;
 	private static DaoSession mDaoSession;
-	private static SQLiteDatabase db;
 	private Context context;
 	private Database sqLiteDatabase;
 

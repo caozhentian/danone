@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.threeti.danone.common.bean.Diary;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 import com.threeti.danone.common.util.NetUtil;
 
 import de.greenrobot.event.EventBus;
@@ -100,7 +100,7 @@ public abstract class DiaryRespository {
 	
 	
 	//************************syn relate code  end 
-	public void create(Diary diary){
+	public boolean create(Diary diary){
 		diary.setStatus(Diary.OPP_ADD) ;
 		String uuid = UUID.randomUUID().toString() ;
 		diary.setAppId(uuid) ;
@@ -109,7 +109,7 @@ public abstract class DiaryRespository {
 		if(success == false ){
 			//notify UI 
 			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_LOCAL_OPP_FAIL);
-			return ; 
+			return success; 
 		}
 		
 		
@@ -133,6 +133,7 @@ public abstract class DiaryRespository {
 //			//notify UI
 //			postDiaryEvent(DiaryResposityEvent.EVENT_DIARY_SYNC_OPP_FAIL)     ;
 //		}
+		return success; 
 	}
 	
 	public void modify(Diary diary){

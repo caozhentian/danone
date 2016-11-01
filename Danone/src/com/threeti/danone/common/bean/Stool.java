@@ -8,19 +8,14 @@ package com.threeti.danone.common.bean;
 /**
  * Entity mapped to table "stool".
  */
-public class Stool extends Diary  {
+public class Stool  extends Diary {
 
-    /** Not-null value. */
-    private String appId;
-    private String serverId;
-    private String modifyReason;
-    private String deleteReason;
-    private String infantId;
-    /** Not-null value. */
-    private java.util.Date ddat;
-    private Integer status;
+	//N: no stool,Y: yes stool
     private String stoolyn;
+    
     private String image;
+    
+    //1: Watery, 2: Soft, 3: Formed  4: Hard
     private Integer type;
 
     // KEEP FIELDS - put your custom fields here
@@ -29,9 +24,6 @@ public class Stool extends Diary  {
     public Stool() {
     }
 
-    public Stool(String appId) {
-        this.appId = appId;
-    }
 
     public Stool(String appId, String serverId, String modifyReason, String deleteReason, String infantId, java.util.Date ddat, Integer status, String stoolyn, String image, Integer type) {
         this.appId = appId;
@@ -45,59 +37,6 @@ public class Stool extends Diary  {
         this.image = image;
         this.type = type;
     }
-
-    /** Not-null value. */
-    public String getAppId() {
-        return appId;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getServerId() {
-        return serverId;
-    }
-
-    public void setServerId(String serverId) {
-        this.serverId = serverId;
-    }
-
-    public String getModifyReason() {
-        return modifyReason;
-    }
-
-    public void setModifyReason(String modifyReason) {
-        this.modifyReason = modifyReason;
-    }
-
-    public String getDeleteReason() {
-        return deleteReason;
-    }
-
-    public void setDeleteReason(String deleteReason) {
-        this.deleteReason = deleteReason;
-    }
-
-    public String getInfantId() {
-        return infantId;
-    }
-
-    public void setInfantId(String infantId) {
-        this.infantId = infantId;
-    }
-
-    /** Not-null value. */
-    public java.util.Date getDdat() {
-        return ddat;
-    }
-
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setDdat(java.util.Date ddat) {
-        this.ddat = ddat;
-    }
-
 
     public String getStoolyn() {
         return stoolyn;

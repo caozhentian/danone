@@ -80,7 +80,7 @@ boolean langua=false;
 	}
 
 	public void mvnEvent(View view) {
-		startActivity(new Intent(this, MvnDBActivity.class));
+		
 	}
 
 	public void DBEvent(View view) {

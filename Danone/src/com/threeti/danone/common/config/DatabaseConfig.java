@@ -6,6 +6,6 @@ package com.threeti.danone.common.config;
  */
 public class DatabaseConfig {
 
-	public static final String ENCRYP_PASSWORD = "123" ;
+	public static  String ENCRYP_PASSWORD = "" ;
 
 }
