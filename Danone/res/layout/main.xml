@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
+    android:id="@+id/ll_home"
     android:orientation="vertical" >
 
     <Button
@@ -35,5 +36,21 @@
         android:text="数据库 "
         android:layout_width="match_parent"
         android:layout_height="40dp" />
-
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="中文"
+        android:layout_weight="1"
+        android:id="@+id/btCN"/>
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="英文"
+        android:layout_weight="1"
+        android:id="@+id/btEN"/>
+</LinearLayout>
 </LinearLayout>

@@ -14,3 +14,4 @@ public abstract class BaseActivity extends FragmentActivity{
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 }
+ 
