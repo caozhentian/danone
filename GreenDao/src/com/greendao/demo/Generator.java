@@ -123,7 +123,9 @@ public class Generator {
 		entity.addStringProperty("serverId").columnName("server_Id");
 		entity.addStringProperty("modifyReason").columnName("modify_reason");
 		entity.addStringProperty("deleteReason").columnName("delete_reason");
-		entity.addStringProperty("infantId").columnName("infant_id").notNull();
+		entity.addStringProperty("infantId").columnName("infant_id");
+		entity.addStringProperty("diaryRegId").columnName("diary_reg_id");
+		
 		entity.addIntProperty("status");
 		entity.addDateProperty("ddat").notNull();
 		
