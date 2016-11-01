@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.threeti.danone.common.bean.Diary;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 import com.threeti.danone.common.util.NetUtil;
 
 import de.greenrobot.event.EventBus;

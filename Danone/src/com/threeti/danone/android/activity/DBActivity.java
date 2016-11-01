@@ -22,14 +22,14 @@ import cn.jesse.nativelogger.NLogger;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.threeti.danone.R;
-import com.threeti.danone.android.adpter.StudentAdpter;
+import com.threeti.danone.android.adpter.StoolAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.android.service.StoolService;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Stool;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 import com.threeti.danone.jni.DanoneJni;
 import com.threeti.danone.manager.net.HttpsUtils;
 import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
@@ -41,9 +41,8 @@ public class DBActivity extends BaseActivity {
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
 
-	private StudentAdpter studentAdpter;
-
-	private List<Stool> list_students;
+    private StoolAdpter stoolAdpter    ;
+	private List<Stool> list_students ;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -177,9 +176,7 @@ public class DBActivity extends BaseActivity {
 			if(size!=0){
 				stoolService.delete(list_students.get(0)) ;
 			}
-			studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
-			result_listView.setAdapter(studentAdpter);
-			studentAdpter.notifyDataSetChanged();
+
 		}
 
 	}
@@ -191,9 +188,9 @@ public class DBActivity extends BaseActivity {
 
 		StoolDao stoolDao  = daoSession.getStoolDao() ;
 		list_students = stoolDao.loadAll() ;
-		studentAdpter = new StudentAdpter(this, list_students, R.layout.item_student_layout);
-		result_listView.setAdapter(studentAdpter);
-		studentAdpter.notifyDataSetChanged();
+		stoolAdpter = new StoolAdpter(this, list_students, R.layout.item_student_layout);
+		result_listView.setAdapter(stoolAdpter);
+		stoolAdpter.notifyDataSetChanged();
 
 	}
 

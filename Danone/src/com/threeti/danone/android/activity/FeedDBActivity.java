@@ -17,8 +17,8 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.FeedDao;
 import com.threeti.danone.android.service.FeedingService;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
 import com.threeti.danone.common.bean.Feed;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 
 import de.greenrobot.event.EventBus;
 

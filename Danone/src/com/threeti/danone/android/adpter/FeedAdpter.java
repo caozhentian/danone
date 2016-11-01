@@ -2,14 +2,12 @@ package com.threeti.danone.android.adpter;
 
 import java.util.List;
 
-import com.threeti.danone.R;
-import com.threeti.danone.android.holder.ViewHolder;
-import com.threeti.danone.common.bean.Crying;
-import com.threeti.danone.common.bean.Feed;
-import com.threeti.danone.common.bean.Student;
-
 import android.content.Context;
 import android.widget.TextView;
+
+import com.threeti.danone.R;
+import com.threeti.danone.android.holder.ViewHolder;
+import com.threeti.danone.common.bean.Feed;
 
 public class FeedAdpter extends CommonAdapter<Feed> {
 

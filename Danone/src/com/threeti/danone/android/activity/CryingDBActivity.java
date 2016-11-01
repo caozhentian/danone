@@ -18,7 +18,7 @@ import com.threeti.danone.android.db.dao.CryingDao;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.service.CryingService;
 import com.threeti.danone.common.bean.Crying;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
+import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 
 import de.greenrobot.event.EventBus;
 
