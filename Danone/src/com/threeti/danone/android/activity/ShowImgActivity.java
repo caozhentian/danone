@@ -19,13 +19,13 @@ public class ShowImgActivity extends BaseActivity {
 	}
 
 	@Override
-	void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
 		ImageView showImg = (ImageView) findViewById(R.id.showImgView);
 

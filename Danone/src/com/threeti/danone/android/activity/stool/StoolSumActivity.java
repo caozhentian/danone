@@ -1,4 +1,4 @@
-package com.threeti.danone.android.activity;
+package com.threeti.danone.android.activity.stool;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +29,7 @@ import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.StoolDao;
 import com.threeti.danone.android.service.StoolService;
 import com.threeti.danone.common.bean.Stool;
+import com.threeti.danone.common.bean.TimeSpent;
 import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 import com.threeti.danone.jni.DanoneJni;
 import com.threeti.danone.manager.net.HttpsUtils;
@@ -36,7 +37,7 @@ import com.threeti.danone.manager.net.HttpsUtils.SSLParams;
 
 import de.greenrobot.event.EventBus;
 
-public class DBActivity extends BaseActivity {
+public class StoolSumActivity extends StoolStatisticsActvity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
@@ -56,7 +57,7 @@ public class DBActivity extends BaseActivity {
 	}
 
 	@Override
-	void initData() {
+	public void initData() {
 		list_students = new ArrayList<Stool>();
 		NLogger.e("nlogger teest2") ;
 		
@@ -142,7 +143,7 @@ public class DBActivity extends BaseActivity {
 	}
 	
 	@Override
-	void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
 		result_listView = (ListView) findViewById(R.id.result_listView);
 		name_editText = (EditText) findViewById(R.id.name_editText);
@@ -210,5 +211,6 @@ public class DBActivity extends BaseActivity {
 		}
 	}
 
+	
 
 }

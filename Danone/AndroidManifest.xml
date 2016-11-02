@@ -49,7 +49,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.threeti.danone.android.activity.DBActivity"
+            android:name="com.threeti.danone.android.activity.stool.StoolSumActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>

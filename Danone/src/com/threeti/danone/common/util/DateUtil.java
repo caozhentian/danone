@@ -4,8 +4,10 @@
 package com.threeti.danone.common.util;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author ztcao 
@@ -19,7 +21,7 @@ public class DateUtil {
 		return getBeforeDate(new Date() , beforeDays) ;
 	}
 	
-	/**yyyy-MM-dd 
+	/**yyyy-MM-dd  (去掉 小时 分钟 和秒 毫秒数设置为0)
 	 * @param curDate
 	 * @param beforeDays
 	 * @return
@@ -41,10 +43,19 @@ public class DateUtil {
 		return date.getTime() ;
 	}
 	
+	
 	//WeekDay day month
 	public static String format(Date date ){
 		DateFormat dateformat = DateFormat.getDateInstance(DateFormat.LONG) ;
 		return dateformat.format(date) ;
 	}
 	
+	/**
+	 * @param date
+	 * @return yyyy/mm/dd
+	 */
+	public static String formatYYYYMMDD(Date date ){
+		SimpleDateFormat sdf1 = new SimpleDateFormat(YYYY_MM_DD_FORMAT,Locale.CHINA) ;
+		return sdf1.format(date) ;
+	}
 }

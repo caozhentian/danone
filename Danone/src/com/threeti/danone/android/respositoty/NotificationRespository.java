@@ -9,24 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-
 import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
-import com.threeti.danone.android.db.dao.NotificationDao;
-import com.threeti.danone.android.db.dao.NotificationDao.Properties;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.NotificationDao;
-import com.threeti.danone.android.db.dao.StoolDao;
-import com.threeti.danone.common.bean.Notification;
 import com.threeti.danone.common.bean.Diary;
-import com.threeti.danone.common.bean.DiaryResposityEvent;
-import com.threeti.danone.common.bean.Stool;
-import com.threeti.danone.common.util.DateUtil;
-import com.threeti.danone.common.util.NumberIntersectUtil;
-
-import de.greenrobot.dao.query.QueryBuilder;
+import com.threeti.danone.common.bean.Notification;
 
 /**
  * @author ztcao

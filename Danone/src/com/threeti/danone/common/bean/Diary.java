@@ -28,6 +28,9 @@ public class Diary {
 	//infant fk(婴儿的外键)
 	protected String infantId  ;
 	
+	/**
+	 * 把小时 分 秒 毫秒 设置为0的时间
+	 */
 	protected Date   ddat      ;
 	
 	/**

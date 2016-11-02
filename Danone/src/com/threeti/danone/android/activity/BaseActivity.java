@@ -5,8 +5,8 @@ import android.widget.Toast;
 
 public abstract class BaseActivity extends FragmentActivity{
 
-	abstract void initData();
-	abstract void initView();
+	public abstract void initData();
+	public abstract void initView();
 	
 	
 	

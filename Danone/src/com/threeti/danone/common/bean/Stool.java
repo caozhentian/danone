@@ -19,6 +19,18 @@ public class Stool  extends Diary {
     private Integer type;
 
     // KEEP FIELDS - put your custom fields here
+    //stool type
+  	public static final int STOOL_WATERY = 1   ;  
+  	
+  	public static final int STOOL_SOFT   = 2   ;  
+  	
+  	public static final int STOOL_FORMED = 3   ;  
+  	
+  	public static final int STOOL_HARD   = 4   ;  
+  	
+  	public static final String STOOL_YES = "Y" ;
+  	
+  	public static final String STOOL_NO  = "N" ;
     // KEEP FIELDS END
 
     public Stool() {

@@ -133,13 +133,13 @@ boolean langua=false;
 	}
 
 	@Override
-	void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
 
 	}

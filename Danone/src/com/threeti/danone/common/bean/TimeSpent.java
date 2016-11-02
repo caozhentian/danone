@@ -16,6 +16,10 @@ public class TimeSpent   extends Diary{
     private Integer time;
 
     // KEEP FIELDS - put your custom fields here
+    public static final String APP_TYPE     = "1" ;
+    public static final String FEEDINF_TYPE = "2" ;
+    public static final String STOOL_TYPE   = "3" ;
+    public static final String CRYING_TYPE  = "4" ;
     // KEEP FIELDS END
 
     public TimeSpent() {
@@ -61,6 +65,13 @@ public class TimeSpent   extends Diary{
     }
 
     // KEEP METHODS - put your custom methods here
+    public boolean isModuleTimeSpent(){
+    	if(APP_TYPE.equals(type)){
+    		return false ;
+    	}
+    	return true ;
+    }
     // KEEP METHODS END
 
+    
 }

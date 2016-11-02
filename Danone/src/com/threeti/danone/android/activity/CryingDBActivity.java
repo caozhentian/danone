@@ -43,14 +43,14 @@ public class CryingDBActivity extends BaseActivity {
 	}
 
 	@Override
-	void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 		list_students = new ArrayList<Crying>();
 		cryingAdpter = new CryingAdpter(this, list_students, R.layout.item_student_layout);
 	}
 
 	@Override
-	void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
 		result_listView = (ListView) findViewById(R.id.result_listView);
 		name_editText = (EditText) findViewById(R.id.name_editText);

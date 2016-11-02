@@ -50,13 +50,13 @@ public class ImgUpLoadActivity extends BaseActivity {
 	}
 
 	@Override
-	void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 		uploadSerivce = new UpLoadSerivce();
 	}
 
 	@Override
-	void initView() {
+	public void initView() {
 		// TODO Auto-generated method stub
 		upload_state_textView = (TextView) findViewById(R.id.upload_state_textView);
 
