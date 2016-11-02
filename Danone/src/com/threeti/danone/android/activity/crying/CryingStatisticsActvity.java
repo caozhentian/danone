@@ -18,19 +18,4 @@ public abstract class CryingStatisticsActvity extends StatisticsActvity{
     protected void setStatistics(){
     	statisticsType  = TimeSpent.CRYING_TYPE ;
     }
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onPause();
-	}
-	
-	@Override
-	public void saveStatistics(TimeSpent timeSpent) {
-		statisticsSerivce.save(timeSpent) ;
-	}
 }

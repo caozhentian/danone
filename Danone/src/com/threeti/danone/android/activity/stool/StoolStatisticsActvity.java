@@ -19,15 +19,4 @@ public abstract class StoolStatisticsActvity extends StatisticsActvity{
     	statisticsType  = TimeSpent.STOOL_TYPE ;
     }
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onPause();
-	}
-	
-	
 }

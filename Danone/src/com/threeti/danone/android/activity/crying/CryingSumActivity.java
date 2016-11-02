@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
-import com.threeti.danone.android.activity.BaseActivity;
 import com.threeti.danone.android.adpter.CryingAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -45,11 +44,12 @@ public class CryingSumActivity extends CryingStatisticsActvity {
 
 	@Override
 	public void initData() {
-		// TODO Auto-generated method stub
+		super.initData() ;
 		list_students = new ArrayList<Crying>();
 		cryingAdpter = new CryingAdpter(this, list_students, R.layout.item_student_layout);
 	}
 
+	
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub

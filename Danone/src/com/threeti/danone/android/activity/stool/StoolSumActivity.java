@@ -58,6 +58,7 @@ public class StoolSumActivity extends StoolStatisticsActvity {
 
 	@Override
 	public void initData() {
+		super.initData() ;
 		list_students = new ArrayList<Stool>();
 		NLogger.e("nlogger teest2") ;
 		

@@ -23,7 +23,7 @@ public class StatisticsSerivce {
 			appTimeSpent.setDdat(timeSpent.getDdat()) ;
 			appTimeSpent.setTime(timeSpent.getTime()) ;
 			appTimeSpent.setType(TimeSpent.APP_TYPE)  ;
-			add(timeSpent) ;
+			add(appTimeSpent) ;
 		}
 		else{ // app statistics use time
 			add(timeSpent) ;

@@ -31,6 +31,7 @@ public abstract class StatisticsActvity extends BaseActivity{
 	
 	public void initData(){
 		statisticsSerivce = new StatisticsSerivce() ;
+		setStatistics() ;
 	}
 	
 	@Override

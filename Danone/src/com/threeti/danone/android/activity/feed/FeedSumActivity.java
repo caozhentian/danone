@@ -23,7 +23,7 @@ import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class FeedSumActivity extends BaseActivity {
+public class FeedSumActivity extends FeedStatisticsActvity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;
@@ -44,7 +44,7 @@ public class FeedSumActivity extends BaseActivity {
 
 	@Override
 	public void initData() {
-		// TODO Auto-generated method stub
+        super.initData() ;
 		list_students = new ArrayList<Feed>();
 		
 	}

@@ -18,16 +18,5 @@ public abstract class FeedStatisticsActvity extends StatisticsActvity{
     protected void setStatistics(){
     	statisticsType  = TimeSpent.FEEDINF_TYPE ;
     }
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onPause();
-	}
-	
-	
+
 }
