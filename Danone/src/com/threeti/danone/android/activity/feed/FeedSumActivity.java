@@ -1,4 +1,4 @@
-package com.threeti.danone.android.activity;
+package com.threeti.danone.android.activity.feed;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
+import com.threeti.danone.android.activity.BaseActivity;
 import com.threeti.danone.android.adpter.FeedAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -22,7 +23,7 @@ import com.threeti.danone.common.bean.event.DiaryResposityEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class FeedDBActivity extends BaseActivity {
+public class FeedSumActivity extends BaseActivity {
 
 	private ListView result_listView;
 	private EditText name_editText, score_editText, age_editText, fancy_editText;

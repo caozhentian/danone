@@ -3,6 +3,8 @@ package com.threeti.danone.android.activity;
 import java.util.ArrayList;
 
 import com.threeti.danone.R;
+import com.threeti.danone.android.activity.crying.CryingSumActivity;
+import com.threeti.danone.android.activity.feed.FeedSumActivity;
 import com.threeti.danone.android.wheelview.ArrayWheelAdapter;
 import com.threeti.danone.android.wheelview.OnWheelChangedListener;
 import com.threeti.danone.android.wheelview.WheelView;
@@ -72,11 +74,11 @@ boolean langua=false;
 	}
 
 	public void CringEvent(View view) {
-		startActivity(new Intent(this, CryingDBActivity.class));
+		startActivity(new Intent(this, CryingSumActivity.class));
 	}
 
 	public void feedEvent(View view) {
-		startActivity(new Intent(this, FeedDBActivity.class));
+		startActivity(new Intent(this, FeedSumActivity.class));
 	}
 
 	public void mvnEvent(View view) {

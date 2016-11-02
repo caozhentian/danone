@@ -34,12 +34,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.threeti.danone.android.activity.CryingDBActivity"
+            android:name="com.threeti.danone.android.activity.crying.CryingSumActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.threeti.danone.android.activity.FeedDBActivity"
+            android:name="com.threeti.danone.android.activity.feed.FeedSumActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
