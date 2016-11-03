@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.threeti.danone.R;
-import com.threeti.danone.android.activity.BaseActivity;
 import com.threeti.danone.android.adpter.FeedAdpter;
 import com.threeti.danone.android.application.DanoneApplication;
 import com.threeti.danone.android.db.DaoManager;
@@ -110,7 +109,6 @@ public class FeedSumActivity extends FeedStatisticsActvity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		
 		EventBus.getDefault().unregister(this) ;

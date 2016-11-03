@@ -3,18 +3,12 @@
  */
 package com.threeti.danone.android.respositoty;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import android.content.Context;
-
 import cn.jesse.nativelogger.NLogger;
 
 import com.threeti.danone.android.application.DanoneApplication;
@@ -22,12 +16,9 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.FeedDao;
 import com.threeti.danone.android.db.dao.FeedDao.Properties;
-import com.threeti.danone.common.bean.BaseModel;
 import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.Feed;
 import com.threeti.danone.common.util.DateUtil;
-import com.threeti.danone.manager.net.RetrofitFactory;
-import com.threeti.danone.manager.net.StoolApiService;
 
 import de.greenrobot.dao.query.QueryBuilder;
 

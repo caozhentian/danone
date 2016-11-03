@@ -15,7 +15,6 @@ import com.threeti.danone.android.db.DaoManager;
 import com.threeti.danone.android.db.dao.DaoSession;
 import com.threeti.danone.android.db.dao.TimeSpentDao;
 import com.threeti.danone.android.db.dao.TimeSpentDao.Properties;
-import com.threeti.danone.common.bean.Diary;
 import com.threeti.danone.common.bean.TimeSpent;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -28,6 +27,10 @@ public class StatisticsRespository {
 
 	public static final String TAG = "StatisticsRespository" ;
 
+	/**删除一条记录
+	 * @param timeSpent
+	 * @return
+	 */
 	public boolean localDelete(TimeSpent timeSpent) {
 		
 		boolean isDeleteSucess =  false;
@@ -48,6 +51,10 @@ public class StatisticsRespository {
 		return isDeleteSucess;
 	}
 
+	/**以事务方式删除一组记录
+	 * @param timeSpents
+	 * @return
+	 */
 	public boolean localDelete(List<TimeSpent> timeSpents) {
 		boolean isDeleteSucess =  false;
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
@@ -67,6 +74,10 @@ public class StatisticsRespository {
 		return isDeleteSucess;
 	}
 
+	/**更新一条记录
+	 * @param timeSpent
+	 * @return
+	 */
 	public boolean localUpdate(TimeSpent timeSpent) {
 		boolean isUpdateSucess =  false;
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
@@ -86,6 +97,10 @@ public class StatisticsRespository {
 		return isUpdateSucess;
 	}
 
+	/**插入一条记录
+	 * @param timeSpent
+	 * @return
+	 */
 	public boolean loacalInsert(TimeSpent timeSpent) {
 		boolean isInsertSucess =  false;
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
@@ -95,6 +110,8 @@ public class StatisticsRespository {
 			TimeSpentDao timeSpentDao = daoSession.getTimeSpentDao();
 			String appId = UUID.randomUUID().toString() ;
 			timeSpent.setAppId(appId) ;
+			//diaryRegId 还没有实现 
+			//timeSpent.setDiaryRegId(diaryRegId)
 			try{
 				timeSpentDao.insert(timeSpent) ;
 				isInsertSucess = true ;
@@ -105,6 +122,10 @@ public class StatisticsRespository {
 		return isInsertSucess;
 	}
 
+	/**根据给定的timeSpent的ddat和type,本地数据库是否存在记录
+	 * @param timeSpent
+	 * @return
+	 */
 	public TimeSpent queryTimeSpent(TimeSpent timeSpent){
 
 		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
@@ -128,13 +149,29 @@ public class StatisticsRespository {
 	}
 
 
-	public boolean sync(Diary diary) {
-		
-		return false;
-	}
+	/** 查询所有的记录
+	 * @return
+	 */
+	public List<TimeSpent> getAllTimeSpent(){
+		Context context        =  DanoneApplication.getInstance().getApplicationContext() ;
+		DaoSession daoSession  =  DaoManager.getInstance().init(context).getDaoSession();
 
+		if (daoSession != null) {
+		    try{
+				TimeSpentDao timeSpentDao = daoSession.getTimeSpentDao() ;
+				return timeSpentDao.loadAll() ;
+		    }catch(Exception e){
+		    	NLogger.e(TAG ,e) ;
+		    }
+		}
+		return Collections.emptyList() ;
+	}
 	
-	public List<? extends Diary> sync(List<? extends Diary> diary) {
+	/**同步一组timeSpents 到云端
+	 * @param timeSpents
+	 * @return
+	 */
+	public List<TimeSpent> sync(List<TimeSpent> timeSpents) {
 
 		return Collections.emptyList();
 	}

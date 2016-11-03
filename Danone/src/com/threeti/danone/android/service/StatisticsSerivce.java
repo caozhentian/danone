@@ -16,6 +16,9 @@ public class StatisticsSerivce {
 		statisticsRespository = new StatisticsRespository() ;
 	}
 
+	/**根据 timeSpent 的type值，采用不同的策略
+	 * @param timeSpent
+	 */
 	public void save(TimeSpent timeSpent){
 		if(timeSpent.isModuleTimeSpent()){ // module statistics use time
 			add(timeSpent) ; 

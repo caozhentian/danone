@@ -104,6 +104,8 @@ public abstract class DiaryRespository {
 		diary.setStatus(Diary.OPP_ADD) ;
 		String uuid = UUID.randomUUID().toString() ;
 		diary.setAppId(uuid) ;
+		//设置婴儿Id ,可支持多婴儿操作
+		diary.setInfantId("1234") ;
 		boolean success = loacalInsert(diary) ;
 		
 		if(success == false ){
