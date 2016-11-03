@@ -53,6 +53,12 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+        <activity
+            android:name="com.threeti.danone.android.activity.home.HomeActivity"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        
     </application>
 
 </manifest>

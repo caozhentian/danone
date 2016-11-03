@@ -33,7 +33,15 @@
         android:layout_marginTop="10dp"
         android:onClick="DBEvent"
         android:background="@drawable/login_edit_back"
-        android:text="数据库 "
+        android:text="stool "
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    
+    <Button
+        android:layout_marginTop="10dp"
+        android:onClick="fragmentEvent"
+        android:background="@drawable/login_edit_back"
+        android:text="Fragment "
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 <LinearLayout 

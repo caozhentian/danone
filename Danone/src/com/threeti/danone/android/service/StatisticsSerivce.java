@@ -1,7 +1,12 @@
 package com.threeti.danone.android.service;
 
+import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.threeti.danone.android.respositoty.StatisticsRespository;
 import com.threeti.danone.common.bean.TimeSpent;
+import com.threeti.danone.common.util.DateUtil;
 
 
 /**
@@ -10,7 +15,24 @@ import com.threeti.danone.common.bean.TimeSpent;
  */
 public class StatisticsSerivce {
 
+	/**
+	 * 统计类型   默认值：统计app的使用时间
+	 */
+	protected String       statisticsType  = TimeSpent.APP_TYPE;
+	
+	/**
+	 * 开始使用时间
+	 */
+	protected Date         startDate       ;
+	
+	/**
+	 * 结束使用时间
+	 */
+	protected Date         endDate         ;
+	
 	protected StatisticsRespository  statisticsRespository ;
+	
+	ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();  
 	
 	public StatisticsSerivce() {
 		statisticsRespository = new StatisticsRespository() ;
@@ -19,18 +41,33 @@ public class StatisticsSerivce {
 	/**根据 timeSpent 的type值，采用不同的策略
 	 * @param timeSpent
 	 */
-	public void save(TimeSpent timeSpent){
-		if(timeSpent.isModuleTimeSpent()){ // module statistics use time
-			add(timeSpent) ; 
-			TimeSpent appTimeSpent = new TimeSpent() ;
-			appTimeSpent.setDdat(timeSpent.getDdat()) ;
-			appTimeSpent.setTime(timeSpent.getTime()) ;
-			appTimeSpent.setType(TimeSpent.APP_TYPE)  ;
-			add(appTimeSpent) ;
-		}
-		else{ // app statistics use time
-			add(timeSpent) ;
-		}
+	public void statistics(){
+		singleThreadExecutor.execute(new Runnable() { //耗时操作，运行在单独的线程
+			
+			@Override
+			public void run() {
+				TimeSpent timeSpent = new TimeSpent() ;
+				long startTime = startDate.getTime()  ;
+				long endTime   = endDate.getTime()    ;
+				//没有考虑 跨天的问题导致的统计 
+				timeSpent.setTime((int) (endTime - startTime)/1000) ;
+				timeSpent.setDdat(DateUtil.getBeforeDate(startDate ,0)) ;
+				timeSpent.setType(statisticsType) ;
+				if(timeSpent.isModuleTimeSpent()){ // module statistics use time
+					add(timeSpent) ; 
+					TimeSpent appTimeSpent = new TimeSpent() ;
+					appTimeSpent.setDdat(timeSpent.getDdat()) ;
+					appTimeSpent.setTime(timeSpent.getTime()) ;
+					appTimeSpent.setType(TimeSpent.APP_TYPE)  ;
+					add(appTimeSpent) ;
+				}
+				else{ // app statistics use time
+					add(timeSpent) ;
+				}
+				
+			}
+		});
+		
 	}
 	
 	/**保存一条timeSpent
@@ -46,5 +83,43 @@ public class StatisticsSerivce {
 		else{
 			statisticsRespository.loacalInsert(timeSpent)   ;
 		}
+		
 	}
+	
+	
+	/**
+	 * 在Activiyt onDestroy方法中调用，关闭线程池
+	 */
+	public void close(){
+		if(!singleThreadExecutor.isShutdown()){
+			singleThreadExecutor.shutdown() ;
+		}
+	}
+
+	public String getStatisticsType() {
+		return statisticsType;
+	}
+
+	public void setStatisticsType(String statisticsType) {
+		this.statisticsType = statisticsType;
+	}
+
+	
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
 }

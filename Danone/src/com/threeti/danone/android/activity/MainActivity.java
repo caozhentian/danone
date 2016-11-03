@@ -1,28 +1,32 @@
 package com.threeti.danone.android.activity;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
 
 import com.threeti.danone.R;
 import com.threeti.danone.android.activity.crying.CryingSumActivity;
 import com.threeti.danone.android.activity.feed.FeedSumActivity;
+import com.threeti.danone.android.activity.home.HomeActivity;
+import com.threeti.danone.android.activity.stool.StoolSumActivity;
+import com.threeti.danone.android.respositoty.StatisticsRespository;
 import com.threeti.danone.android.wheelview.ArrayWheelAdapter;
 import com.threeti.danone.android.wheelview.OnWheelChangedListener;
 import com.threeti.danone.android.wheelview.WheelView;
 import com.threeti.danone.android.widget.PopupWindowView;
 import com.threeti.danone.common.bean.BaseModel;
+import com.threeti.danone.common.bean.TimeSpent;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.PopupWindow.OnDismissListener;
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseActivity {
@@ -62,6 +66,11 @@ boolean langua=false;
 				langua=true;
 			}
 		});
+		
+		StatisticsRespository statisticsRespository = new StatisticsRespository() ;
+		List<TimeSpent> timeSpents = statisticsRespository.getAllTimeSpent() ;
+		int size = timeSpents.size() ;
+		size++ ;
 	}
 
 	public void eventBusPost() {
@@ -86,9 +95,13 @@ boolean langua=false;
 	}
 
 	public void DBEvent(View view) {
-//		startActivity(new Intent(this, DBActivity.class));
-		showOrder(langua);
+		startActivity(new Intent(this, StoolSumActivity.class));
+		//showOrder(langua);
 		
+	}
+	
+	public void fragmentEvent(View view){
+		startActivity(new Intent(this, HomeActivity.class));
 	}
 
 	/**
