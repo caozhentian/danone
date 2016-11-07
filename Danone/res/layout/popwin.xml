@@ -9,17 +9,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <com.threeti.danone.android.wheelview.WheelView 
+    <com.danone.comfit.wheelview.WheelView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:id="@+id/wheel1"/>
-    <com.threeti.danone.android.wheelview.WheelView 
+    <com.danone.comfit.wheelview.WheelView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:id="@+id/wheel2"/>
-    <com.threeti.danone.android.wheelview.WheelView 
+    <com.danone.comfit.wheelview.WheelView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
