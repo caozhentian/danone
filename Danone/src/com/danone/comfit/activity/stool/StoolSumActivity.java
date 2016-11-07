@@ -20,12 +20,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import cn.jesse.nativelogger.NLogger;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.danone.comfit.R;
 import com.danone.comfit.adpter.StoolAdpter;
 import com.danone.comfit.application.DanoneApplication;
 import com.danone.comfit.common.bean.Stool;
-import com.danone.comfit.common.bean.TimeSpent;
 import com.danone.comfit.common.bean.event.DiaryResposityEvent;
 import com.danone.comfit.db.DaoManager;
 import com.danone.comfit.db.dao.DaoSession;
@@ -33,6 +31,7 @@ import com.danone.comfit.db.dao.StoolDao;
 import com.danone.comfit.net.HttpsUtils;
 import com.danone.comfit.net.HttpsUtils.SSLParams;
 import com.danone.comfit.service.StoolService;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.threeti.danone.jni.DanoneJni;
 
 import de.greenrobot.event.EventBus;

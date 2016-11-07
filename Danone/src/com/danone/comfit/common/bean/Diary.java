@@ -110,5 +110,7 @@ public class Diary {
 		this.deleteReason = deleteReason;
 	} 
 	
-	
+	public boolean isSyncSuccess(){
+		return true ;
+	}
 }

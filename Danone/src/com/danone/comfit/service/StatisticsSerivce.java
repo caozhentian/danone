@@ -1,6 +1,7 @@
 package com.danone.comfit.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import com.danone.comfit.common.bean.TimeSpent;
@@ -84,6 +85,12 @@ public class StatisticsSerivce {
 		}
 		
 	}
+	
+	public void sync(){
+		statisticsRespository.sync() ;
+	}
+	
+	
 	
 	public String getStatisticsType() {
 		return statisticsType;

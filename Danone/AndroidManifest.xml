@@ -15,8 +15,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
-
 
     <application
         android:name="com.danone.comfit.application.DanoneApplication"
@@ -58,7 +56,14 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-        
+
+        <receiver
+            android:name="com.danone.comfit.common.util.ConnectionChangeReceiver"
+            android:label="NetworkConnection" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

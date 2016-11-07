@@ -3,19 +3,27 @@
  */
 package com.danone.comfit.respositoty;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import android.content.Context;
 import cn.jesse.nativelogger.NLogger;
 
 import com.danone.comfit.application.DanoneApplication;
+import com.danone.comfit.common.bean.BaseModel;
 import com.danone.comfit.common.bean.TimeSpent;
 import com.danone.comfit.db.DaoManager;
 import com.danone.comfit.db.dao.DaoSession;
 import com.danone.comfit.db.dao.TimeSpentDao;
 import com.danone.comfit.db.dao.TimeSpentDao.Properties;
+import com.danone.comfit.net.RetrofitFactory;
+import com.danone.comfit.net.StatisticsApiService;
 
 import de.greenrobot.dao.query.QueryBuilder;
 
@@ -168,12 +176,39 @@ public class StatisticsRespository {
 	}
 	
 	/**同步一组timeSpents 到云端
-	 * @param timeSpents
 	 * @return
 	 */
-	public List<TimeSpent> sync(List<TimeSpent> timeSpents) {
-
-		return Collections.emptyList();
+	public void sync() {
+		List<TimeSpent> timeSpents = getAllTimeSpent() ;
+		if(timeSpents.size() == 0){
+			return ;
+		}
+		Retrofit retrofit = RetrofitFactory.getBaseRetrofit();
+		StatisticsApiService statisticsApiService = retrofit.create(StatisticsApiService.class);
+		Call<BaseModel<List<TimeSpent>>> call     = statisticsApiService.sync(timeSpents) ;
+		try {
+			Response<BaseModel<List<TimeSpent>>>  response = 	call.execute();
+			if(response.isSuccessful() && response.errorBody() == null){
+				BaseModel<List<TimeSpent>> baseModel = response.body() ;
+				List<TimeSpent> timeSpentsNet     = baseModel.getData() ;
+				if(timeSpentsNet != null && timeSpentsNet.size() > 0){
+					List<TimeSpent> successTimeSpents = new ArrayList<TimeSpent>(timeSpentsNet.size()) ;
+					for(TimeSpent timeSpent :successTimeSpents){
+						if(timeSpent.isSyncSuccess()){
+							successTimeSpents.add(timeSpent) ;
+						}
+					}
+					//批量删除成功的记录
+					localDelete(successTimeSpents) ;
+				}
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			NLogger.e(TAG ,  e);
+			e.printStackTrace();
+		}
+		
 	}
 
 }
