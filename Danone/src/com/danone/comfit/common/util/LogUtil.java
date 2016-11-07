@@ -3,15 +3,13 @@
  */
 package com.danone.comfit.common.util;
 
-import com.danone.comfit.application.DanoneApplication;
-import com.danone.comfit.common.config.Debug;
-import com.danone.comfit.common.config.FileConfig;
-import com.facebook.stetho.Stetho;
-
 import cn.jesse.nativelogger.NLogger;
 import cn.jesse.nativelogger.formatter.SimpleFormatter;
 import cn.jesse.nativelogger.logger.LoggerLevel;
 import cn.jesse.nativelogger.util.CrashWatcher;
+
+import com.danone.comfit.common.config.Debug;
+import com.danone.comfit.common.config.FileConfig;
 
 /**
  * @author ztcao log 
