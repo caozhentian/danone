@@ -30,6 +30,7 @@ public abstract class StatisticsActvity extends BaseActivity{
 	
 	@Override
 	protected void onPause() {
+		
 		super.onPause();
 		Date endDate = new Date() ;
 		statisticsSerivce.setEndDate(endDate) ;

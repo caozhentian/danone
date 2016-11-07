@@ -3,7 +3,6 @@ package com.threeti.danone.android.service;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.threeti.danone.android.respositoty.DiaryRespository;
 import com.threeti.danone.common.bean.Diary;
@@ -19,7 +18,7 @@ public class DiaryService {
 
 	protected DiaryRespository diaryRespository ;
 	
-	ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();  
+	static ExecutorService singleThreadExecutor = ExecutorServiceFactory.getExecutorService() ;  
 	
 	public void save(final Diary diary){
 		//other logic (开始的校验逻辑)

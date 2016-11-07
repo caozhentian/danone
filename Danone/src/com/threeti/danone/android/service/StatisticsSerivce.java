@@ -2,7 +2,6 @@ package com.threeti.danone.android.service;
 
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.threeti.danone.android.respositoty.StatisticsRespository;
 import com.threeti.danone.common.bean.TimeSpent;
@@ -32,7 +31,7 @@ public class StatisticsSerivce {
 	
 	protected StatisticsRespository  statisticsRespository ;
 	
-	ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();  
+	ExecutorService singleThreadExecutor = ExecutorServiceFactory.getExecutorService();  
 	
 	public StatisticsSerivce() {
 		statisticsRespository = new StatisticsRespository() ;
@@ -42,17 +41,17 @@ public class StatisticsSerivce {
 	 * @param timeSpent
 	 */
 	public void statistics(){
+		final TimeSpent timeSpent = new TimeSpent() ;
+		long startTime = startDate.getTime()  ;
+		long endTime   = endDate.getTime()    ;
+		//没有考虑 跨天的问题导致的统计 
+		timeSpent.setTime((int) (endTime - startTime)/1000) ;
+		timeSpent.setDdat(DateUtil.getBeforeDate(startDate ,0)) ;
+		timeSpent.setType(statisticsType) ;
 		singleThreadExecutor.execute(new Runnable() { //耗时操作，运行在单独的线程
-			
 			@Override
 			public void run() {
-				TimeSpent timeSpent = new TimeSpent() ;
-				long startTime = startDate.getTime()  ;
-				long endTime   = endDate.getTime()    ;
-				//没有考虑 跨天的问题导致的统计 
-				timeSpent.setTime((int) (endTime - startTime)/1000) ;
-				timeSpent.setDdat(DateUtil.getBeforeDate(startDate ,0)) ;
-				timeSpent.setType(statisticsType) ;
+				
 				if(timeSpent.isModuleTimeSpent()){ // module statistics use time
 					add(timeSpent) ; 
 					TimeSpent appTimeSpent = new TimeSpent() ;
@@ -86,16 +85,6 @@ public class StatisticsSerivce {
 		
 	}
 	
-	
-	/**
-	 * 在Activiyt onDestroy方法中调用，关闭线程池
-	 */
-	public void close(){
-		if(!singleThreadExecutor.isShutdown()){
-			singleThreadExecutor.shutdown() ;
-		}
-	}
-
 	public String getStatisticsType() {
 		return statisticsType;
 	}
