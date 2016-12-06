@@ -18,6 +18,7 @@ import cn.jesse.nativelogger.NLogger;
 import com.danone.comfit.application.DanoneApplication;
 import com.danone.comfit.common.bean.BaseModel;
 import com.danone.comfit.common.bean.TimeSpent;
+import com.danone.comfit.common.config.Debug;
 import com.danone.comfit.db.DaoManager;
 import com.danone.comfit.db.dao.DaoSession;
 import com.danone.comfit.db.dao.TimeSpentDao;
@@ -201,12 +202,12 @@ public class StatisticsRespository {
 					//批量删除成功的记录
 					localDelete(successTimeSpents) ;
 				}
-			}
-			
+			}	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			NLogger.e(TAG ,  e);
-			e.printStackTrace();
+			if(Debug.DEV_MODE){
+				e.printStackTrace();
+			}
 		}
 		
 	}

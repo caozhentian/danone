@@ -10,13 +10,16 @@ import com.facebook.stetho.Stetho;
 
 public class DanoneApplication extends Application {
 
+    private static AppStatusTracker tracker = new AppStatusTracker();
+	
     private static DanoneApplication danoneApplication ;
-    
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		registerActivityLifecycleCallbacks(tracker)  ; 
 		if(Debug.DEV_MODE){
-			Stetho.initializeWithDefaults(this); //for dubug
+			Stetho.initializeWithDefaults(this)      ; //for dubug
 		}
 		danoneApplication = this ;
 		FileConfig.initFileConfig() ;
@@ -32,4 +35,6 @@ public class DanoneApplication extends Application {
 	public static DanoneApplication getInstance(){
 		return danoneApplication ;
 	}
+	
+	
 }

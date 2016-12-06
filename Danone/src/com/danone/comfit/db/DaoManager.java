@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.danone.comfit.common.config.DatabaseConfig;
 import com.danone.comfit.common.config.Debug;
